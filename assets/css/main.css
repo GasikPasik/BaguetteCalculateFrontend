@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Alegreya Sans SC", sans-serif;
+  font-style: normal;
+
+  --dark-grey-color: #2c2c2c;
+  --dark-dark-grey-color: rgb(35, 35, 35);
+  --main-color: #ff8a00;
+  --main-60-color: rgba(255, 138, 17, 0.6);
+  --white-color: rgb(240, 240, 240);
+
+  font-size: 18px;
+}
+
+#__nuxt {
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+h1 {
+  color: white;
+  font-size: 32px;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--dark-dark-grey-color);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 1px;
+  border: 3px solid var(--dark-dark-grey-color);
+}
