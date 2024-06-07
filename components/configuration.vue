@@ -35,11 +35,11 @@
       Рамка в высоту {{ frame.w }} см, в ширинук {{ frame.h }} см<br />
     </div>
   </div>
-  <BaggueteChanger
+  <!-- <BaggueteChanger
     v-show="currentWindow === 1"
     :frame="frame"
     @back="setWindow(0)"
-  />
+  /> -->
 </template>
 
 <script setup lang="ts">
@@ -68,6 +68,8 @@ function setWindow(newValue) {
 
 <style scoped>
 .div-configuration {
+  width: 100%;
+  height: 100%;
   text-align: center;
 }
 .div-config {

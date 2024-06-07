@@ -7,6 +7,7 @@
       ]"
     >
       <h1>Меню</h1>
+      <button class="close-button" @click="closeMenu">×</button>
     </div>
   </div>
 </template>
@@ -18,7 +19,9 @@ const props = defineProps({ isOpen: { default: false } });
 .over-div-burger {
   position: absolute;
   overflow: hidden;
-  width: 700px;
+  width: 40%;
+  min-width: 500px;
+  max-width: 800px;
   height: 100%;
   right: 0;
 }
@@ -37,5 +40,16 @@ const props = defineProps({ isOpen: { default: false } });
 }
 .burger-div-close {
   transform: translateX(100%);
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
 }
 </style>

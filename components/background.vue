@@ -1,0 +1,79 @@
+<template>
+  <div class="bg-image" :style="backgroundStyle">
+    <div class="bg-color" />
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from "vue";
+
+const props = defineProps({
+  zoom: { default: 100 },
+});
+
+const offsetX = ref(0);
+const offsetY = ref(0);
+
+const backgroundStyle = computed(() => {
+  const backgroundSize = `${props.zoom}%`;
+  const backgroundPositionX = offsetX.value + "px";
+  const backgroundPositionY = offsetY.value + "px";
+
+  return {
+    backgroundImage: `url(https://3djungle.ru/upload/resize_cache/iblock/f43/400_400_1/f4338ceb128889832da5361a6160c9ff.jpg)`,
+    backgroundSize,
+    backgroundPosition: `${backgroundPositionX} ${backgroundPositionY}`,
+    transition: "background-size 0.5s ease, background-position 0.1s ease",
+  };
+});
+
+const screenWidth = ref(1280);
+const screenHeight = ref(720);
+
+const updateOffset = (event) => {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  const centerX = screenWidth.value / 2;
+  const centerY = screenHeight.value / 2;
+
+  const offsetXFactor = 0.01;
+  const offsetYFactor = 0.01;
+
+  offsetX.value = (mouseX - centerX) * offsetXFactor;
+  offsetY.value = (mouseY - centerY) * offsetYFactor;
+};
+
+onMounted(() => {
+  window.addEventListener("mousemove", updateOffset);
+
+  const updateScreenSize = () => {
+    screenWidth.value = window.innerWidth;
+    screenHeight.value = window.innerHeight;
+  };
+
+  window.addEventListener("resize", updateScreenSize);
+
+  onUnmounted(() => {
+    window.removeEventListener("mousemove", updateOffset);
+    window.removeEventListener("resize", updateScreenSize);
+  });
+});
+</script>
+
+<style scoped>
+.bg-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: green;
+}
+.bg-color {
+  background-color: rgba(230, 230, 230, 0.96);
+  width: 100%;
+  height: 100%;
+}
+</style>

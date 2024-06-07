@@ -1,6 +1,4 @@
-<template>
-  <Header />
-</template>
+<template></template>
 
 <script setup>
 import Header from "~/components/header.vue";

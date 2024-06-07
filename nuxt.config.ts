@@ -1,3 +1,6 @@
+import { ref } from "vue";
+
+const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
@@ -24,7 +27,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backendUrl: process.env.BACKEND_URL || "http://localhost:8000",
+      backendUrl: backendUrl,
+      pathDefImage: backendUrl + "/static/def1.jpg",
     },
   },
 });
