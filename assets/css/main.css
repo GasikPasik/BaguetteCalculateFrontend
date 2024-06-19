@@ -11,6 +11,7 @@
   --main-color: #ff8a00;
   --main-60-color: rgba(255, 138, 17, 0.6);
   --white-color: rgb(240, 240, 240);
+  --red-color: rgb(242, 68, 68);
 
   font-size: 18px;
 }
@@ -31,6 +32,11 @@ h1 {
   font-size: 32px;
 }
 
+h2 {
+  color: white;
+  font-size: 20px;
+}
+
 *::-webkit-scrollbar {
   width: 10px;
 }
@@ -43,3 +49,6 @@ h1 {
   border: 3px solid var(--dark-dark-grey-color);
 }
 
+body {
+  overflow-x: hidden;
+}

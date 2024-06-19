@@ -1,6 +1,6 @@
 <template>
   <div class="main-content-div">
-    <div class="preview" :style="backgroundStyle">
+    <div class="preview">
       <Content :frame="frame" />
     </div>
     <div class="config">
@@ -26,10 +26,11 @@ const frame = ref({
   options: [],
   optionsCost: 0,
   article: "3",
-  costBagguete: 100,
-  wBaguette: 3,
-  isPhoto: true,
+  costBaguette: 100,
+  width: 3,
   urlImage: pathDefImage,
+  isMirror: 0,
+  path: "",
 });
 
 watch(

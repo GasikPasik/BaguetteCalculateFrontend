@@ -1,7 +1,7 @@
 <template>
-  <div class="bagguete-config">
+  <div class="baguette-config">
     <h1>Выбрать багет</h1>
-    <div class="bagguete-header">
+    <div class="baguette-header">
       <div>Ну тут будут фильтры</div>
       <CButton @click="emit('back')">Назад</CButton>
     </div>
@@ -9,17 +9,11 @@
       <div
         v-for="(bag, idx) in baguettes"
         :key="bag"
-        class="bagguete"
+        class="baguette"
         :class="{ active: bag.article === frame.article }"
-        @click="changeBagguete(idx)"
+        @click="changeBaguette(idx)"
       >
-        <div class="bagguete-image-div">
-          <img
-            :src="backendUrl + '/static/baguettes/' + bag.article + '.jpg'"
-            alt="Baguette"
-            class="bagguete-image"
-          />
-        </div>
+        <BaguetteIcon :article="bag.article" />
       </div>
     </div>
   </div>
@@ -27,6 +21,7 @@
 
 <script setup>
 import CButton from "~/components/ui/cbutton.vue";
+import BaguetteIcon from "~/components/baguetteIcon.vue";
 const { $api } = useNuxtApp();
 
 const emit = defineEmits(["back"]);
@@ -45,9 +40,9 @@ async function uploadingBagguet() {
   }
 }
 
-function changeBagguete(idx) {
-  props.frame.costBagguete = baguettes.value[idx].price;
-  props.frame.wBaguette = baguettes.value[idx].wBaguette;
+function changeBaguette(idx) {
+  props.frame.costBaguette = baguettes.value[idx].price;
+  props.frame.width = baguettes.value[idx].width;
   props.frame.article = baguettes.value[idx].article;
 }
 
@@ -55,13 +50,13 @@ onMounted(uploadingBagguet);
 </script>
 
 <style scoped>
-.bagguete-config {
+.baguette-config {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 }
-.bagguete-header {
+.baguette-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,7 +71,7 @@ onMounted(uploadingBagguet);
   height: 100%;
   overflow-y: scroll;
 }
-.bagguete {
+.baguette {
   width: 150px;
   height: 150px;
   background-color: white;
@@ -84,18 +79,7 @@ onMounted(uploadingBagguet);
   border: 4px solid white;
   border-radius: 4px;
 }
-.bagguete.active {
+.baguette.active {
   border: 4px solid var(--main-color);
-}
-.bagguete-image-div {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  overflow: hidden;
-}
-.bagguete-image {
-  width: 100%;
-  height: 100%;
-  transform: translateY(35px) rotate(-45deg);
 }
 </style>

@@ -4,15 +4,19 @@
     @dragover.prevent
     @drop="handleDrop"
     @click="handleClick"
+    v-if="!imageUrl"
   >
     <p v-if="!imageUrl">Перетащите фотографию или нажмите сюда</p>
     <img v-else :src="imageUrl" alt="Uploaded Image" />
   </div>
-  <button v-if="imageUrl" @click="deleteImage">Удалить фотографию</button>
+  <CButton v-if="imageUrl" @click="deleteImage"
+    >Загрузить другую фотографию</CButton
+  >
 </template>
 
 <script setup>
 import { ref } from "vue";
+import CButton from "~/components/ui/cbutton.vue";
 
 const imageUrl = ref("");
 const emit = defineEmits(["uploadImage"]);
@@ -59,10 +63,13 @@ const deleteImage = () => {
   justify-content: center;
   align-items: center;
 
-  -webkit-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.3),
-    0px 0px 15px 6px rgba(0, 0, 0, 0.3) inset;
+  width: 100%;
+  min-height: 80px;
+
+  -webkit-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.2),
+    0px 0px 15px 6px rgba(0, 0, 0, 0.2) inset;
 }
 .drop-area:before {
   content: "";

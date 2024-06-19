@@ -1,6 +1,7 @@
 <template>
   <div
     class="preview"
+    ref="preview"
     :style="{
       width: limitW + 'px',
       height: limitH + 'px',
@@ -16,7 +17,8 @@
             backgroundImage:
               'url(' +
               backendUrl +
-              '/static/baguettes/' +
+              '/static/' +
+              (frame.path == '' ? 'baguettes/' : frame.path) +
               frame.article +
               '_0.jpg)',
           }"
@@ -29,7 +31,8 @@
             backgroundImage:
               'url(' +
               backendUrl +
-              '/static/baguettes/' +
+              '/static/' +
+              (frame.path == '' ? 'baguettes/' : frame.path) +
               frame.article +
               '_0.jpg)',
           }"
@@ -42,7 +45,8 @@
             backgroundImage:
               'url(' +
               backendUrl +
-              '/static/baguettes/' +
+              '/static/' +
+              (frame.path == '' ? 'baguettes/' : frame.path) +
               frame.article +
               '_90.jpg)',
           }"
@@ -55,14 +59,19 @@
             backgroundImage:
               'url(' +
               backendUrl +
-              '/static/baguettes/' +
+              '/static/' +
+              (frame.path == '' ? 'baguettes/' : frame.path) +
               frame.article +
               '_90.jpg)',
           }"
         ></div>
-
         <div class="content-container">
-          <img class="content-image" :src="frame.urlImage" />
+          <img
+            v-if="frame.isMirror == 0"
+            class="content-image"
+            :src="frame.urlImage"
+          />
+          <div v-else class="div-mirror"></div>
         </div>
       </div>
     </div>
@@ -70,28 +79,30 @@
 </template>
 
 <script setup>
-const maxW = 500;
-const maxH = 400;
+const maxW = ref(500);
+const maxH = ref(300);
 import { defineProps, ref, onMounted, watch } from "vue";
 const props = defineProps({ frame: { require: true } });
-const wBaguette = ref(
-  Math.min(
-    props.frame.wBaguette * (maxH / props.frame.h),
-    props.frame.wBaguette * (maxW / props.frame.w)
-  )
-);
-const k = ref(maxH / (wBaguette.value + maxH));
-const limitW = ref(maxW * k.value);
-const limitH = ref(maxH * k.value);
+//   Math.min(
+//     props.frame.width * (maxH / props.frame.h),
+//     props.frame.width * (maxW / props.frame.w)
+//   )
+// );
+const k = ref(0); //maxH / (wBaguette.value + maxH));
+const limitW = ref(0); //maxW * k.value);
+const limitH = ref(0); //maxH * k.value);
 const width = ref(0);
 const height = ref(0);
+const wBaguette = ref(0);
 const config = useRuntimeConfig();
 const backendUrl = config.public.backendUrl;
 
-function calculateSize() {
+const preview = ref(null);
+
+function calculateSize(maxW, maxH) {
   wBaguette.value = Math.min(
-    props.frame.wBaguette * (maxH / props.frame.h),
-    props.frame.wBaguette * (maxW / props.frame.w)
+    props.frame.width * (maxH / props.frame.h),
+    props.frame.width * (maxW / props.frame.w)
   );
   k.value = Math.max(
     maxH / (wBaguette.value + maxH),
@@ -110,12 +121,20 @@ function calculateSize() {
   }
 }
 
-onMounted(calculateSize);
+onMounted(() => {
+  const parentElement = preview.value.parentElement;
+  const parentWidth = parentElement.clientWidth;
+  const parentHeight = parentElement.clientHeight;
+  calculateSize(parentWidth, parentHeight);
+});
 
 watch(
-  () => [props.frame.w, props.frame.h],
+  () => [props.frame.article, props.frame.w, props.frame.h],
   () => {
-    calculateSize();
+    const parentElement = preview.value.parentElement;
+    const parentWidth = parentElement.clientWidth;
+    const parentHeight = parentElement.clientHeight;
+    calculateSize(parentWidth, parentHeight);
   }
 );
 </script>
@@ -125,22 +144,13 @@ watch(
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  height: 100%;
 }
 .frame {
   /* background-color: var(--dark-grey-color); */
   opacity: 0.95;
-}
-.ruler {
-  position: relative;
-  bottom: -20px;
-  width: 100%;
-  height: 25px;
-
-  display: flex;
-  padding: 3px;
-}
-.ruler-cm {
-  background-color: var(--dark-grey-color);
 }
 
 .border-wrapper {
@@ -204,5 +214,11 @@ watch(
 .border.right {
   left: 100%;
   transform: rotate(180deg);
+}
+
+.div-mirror {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #eeeeee, #c7c7c7);
 }
 </style>

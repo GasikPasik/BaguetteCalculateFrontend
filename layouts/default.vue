@@ -19,8 +19,8 @@ const props = defineProps({
 </script>
 <style scoped>
 .container {
-  display: flex;
   height: 100%;
+  display: flex;
   flex-direction: column;
 }
 </style>

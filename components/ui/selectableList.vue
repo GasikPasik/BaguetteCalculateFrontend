@@ -15,7 +15,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
-const emit = defineEmits(["update:selectedItem"]);
+const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
   items: {
     type: Array,
@@ -31,7 +31,7 @@ const localSelectedIndex = ref(props.selectedIndex);
 
 const selectItem = (index) => {
   localSelectedIndex.value = index;
-  emit("update:selectedItem", index);
+  emit("update:modelValue", index);
 };
 
 watch(

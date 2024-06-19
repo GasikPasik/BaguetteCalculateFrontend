@@ -26,6 +26,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
@@ -58,49 +59,52 @@ const inputValue = ref(props.startValue);
 const sliderWrapper = ref(null);
 
 const updateFromSlider = () => {
-  inputValue.value = sliderValue.value;
+  inputValue.value = sliderValue.value.toString();
   emitChangeVal(sliderValue.value);
   updateSlider();
 };
 
 const validateInput = () => {
-  let correctValue = inputValue.value;
-  if (correctValue === "") return;
-
-  correctValue = correctValue.replace(",", ".");
-  correctValue = correctValue.replace(/[^\d.]/g, "");
+  let correctValue = inputValue.value.toString();
+  correctValue = correctValue.replace(",", ".").replace(/[^\d.]/g, "");
   if (correctValue.length > 5) {
     correctValue = correctValue.slice(0, 5);
   }
-
-  if (correctValue.indexOf(".") !== -1) {
-    correctValue = parseFloat(correctValue).toFixed(1);
+  if (correctValue === "") {
+    sliderValue.value = props.minValue;
+    return;
   }
 
-  inputValue.value = correctValue;
-  if (correctValue < props.minValue) {
-    correctValue = props.minValue.toString();
-  } else if (correctValue > props.maxValue) {
-    correctValue = props.maxValue.toString();
+  let numericValue = parseFloat(correctValue);
+  if (isNaN(numericValue)) {
+    numericValue = props.minValue;
   }
-  sliderValue.value = parseFloat(correctValue);
-  emitChangeVal(parseFloat(correctValue));
+
+  if (numericValue < 0) inputValue.value = 0;
+  else if (numericValue > props.maxValue) inputValue.value = props.maxValue;
+
+  if (numericValue < props.minValue) {
+    numericValue = props.minValue;
+  } else if (numericValue > props.maxValue) {
+    numericValue = props.maxValue;
+  }
+
+  sliderValue.value = numericValue;
+  emitChangeVal(numericValue);
 };
 
 const endInput = () => {
-  if (
-    inputValue.value === "" ||
-    parseFloat(inputValue.value) < props.minValue
-  ) {
-    inputValue.value = props.minValue.toString();
-  } else if (parseFloat(inputValue.value) > props.maxValue) {
-    inputValue.value = props.maxValue.toString();
+  let numericValue = parseFloat(inputValue.value);
+
+  if (isNaN(numericValue) || numericValue < props.minValue) {
+    numericValue = props.minValue;
+  } else if (numericValue > props.maxValue) {
+    numericValue = props.maxValue;
   }
 
-  if (inputValue.value.indexOf(".") !== -1) {
-    inputValue.value = parseFloat(inputValue.value).toFixed(1);
-  }
-  emitChangeVal(parseFloat(inputValue.value));
+  inputValue.value = numericValue.toString();
+  sliderValue.value = numericValue;
+  emitChangeVal(numericValue);
 };
 
 const emitChangeVal = (value) => {

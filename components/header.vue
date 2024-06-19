@@ -2,25 +2,69 @@
   <div class="div-header">
     <div class="div-header-left">
       <div class="text-logo">Kodak</div>
-      <div class="text-baget-calc">Багетный калькулятор {{ isOpenBurger }}</div>
+      <div class="text-baget-calc">Багетный калькулятор</div>
     </div>
     <div class="div-header-right">
-      <div class="burger-icon" @click="toggleBurger">
-        <div v-for="index in 3" class="burger-icon-line" :key="index"></div>
+      <div class="username-div">
+        <img class="ico-user" src="~/public/ico/user.svg" />
+        {{ login }}
+      </div>
+      <div>
+        <div class="burger-icon" @click="toggleBurger">
+          <div v-for="index in 3" class="burger-icon-line" :key="index"></div>
+        </div>
       </div>
     </div>
   </div>
-  <Burger :isOpen="isOpenBurger"></Burger>
+  <Burger
+    :isOpen="isOpenBurger"
+    @close="toggleBurger"
+    :adminTabs="adminTabs"
+    :offerTabs="offerTabs"
+  ></Burger>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import Burger from "~/components/burger.vue";
 const isOpenBurger = ref(false);
+const { $api } = useNuxtApp();
+const adminTabs = ref({});
+const offerTabs = ref({});
 
 function toggleBurger() {
   isOpenBurger.value = !isOpenBurger.value;
 }
+
+const login = ref("None");
+
+async function fetchToken() {
+  try {
+    const response = await $api.get("/api/v1/me/", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    login.value = response.data.login;
+    if (response.data.tag == "admin")
+      adminTabs.value = {
+        options: "Опции заказа",
+        offers: "Сотрудники",
+        baguettes: "Багет",
+      };
+    if (response.data.tag == "offer" || response.data.tag == "admin")
+      offerTabs.value = {
+        orders: "Заказы",
+      };
+  } catch (error) {
+    localStorage.removeItem("token");
+    console.error(error);
+    login.value = "None";
+    adminTabs.value = {};
+  }
+}
+
+onMounted(fetchToken);
 </script>
 
 <style scoped>
@@ -68,5 +112,20 @@ function toggleBurger() {
   width: 40px;
   background-color: white;
   transition: background-color 0.1s;
+}
+.username-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  gap: 5px;
+}
+.div-header-right {
+  display: flex;
+  gap: 30px;
+  color: white;
+}
+.ico-user {
+  height: 20px;
 }
 </style>

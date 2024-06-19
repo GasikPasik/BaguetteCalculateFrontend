@@ -18,8 +18,8 @@ function toggleCheck() {
 
 <style scoped>
 .checkbox {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +28,7 @@ function toggleCheck() {
   padding: 3px;
 
   border-radius: 2px;
+  box-shadow: 0px 0px 4px 1px rgba(10, 10, 10, 0.2) inset;
 }
 
 .checkbox-inner {

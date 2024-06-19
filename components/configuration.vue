@@ -17,14 +17,17 @@
     </div>
     <h1>Фотогратор</h1>
     <div class="div-config">
-      <SelectableList :items="['Это фотография', 'Это зеркало']" />
-      <DropZone />
+      <SelectableList
+        :items="['Это фотография', 'Это зеркало']"
+        v-model="frame.isMirror"
+      />
+
+      <DropZone v-if="frame.isMirror == 0" @uploadImage="uploadImage" />
     </div>
     <h1>Оформлятор</h1>
     <div class="div-config">
-      <CheckboxOption label="Ножка сзади рамки:" />
-      <CheckboxOption label="Доп. усиление углов:" />
-      <CheckboxOption label="Тросик сзади рамки:" />
+      <CheckboxOption v-for="i in options" :label="i.title" :price="i.price" />
+
       <div class="config-space"></div>
       <ButtonOption @clicked="setWindow(1)">Багет рамки</ButtonOption>
       <ButtonOption>Профиль рамки</ButtonOption>
@@ -35,11 +38,11 @@
       Рамка в высоту {{ frame.w }} см, в ширинук {{ frame.h }} см<br />
     </div>
   </div>
-  <!-- <BaggueteChanger
+  <BaguetteChanger
     v-show="currentWindow === 1"
     :frame="frame"
     @back="setWindow(0)"
-  /> -->
+  />
 </template>
 
 <script setup lang="ts">
@@ -49,10 +52,17 @@ import SelectableList from "~/components/ui/selectableList.vue";
 import DropZone from "~/components/ui/dropZone.vue";
 import CheckboxOption from "~/components/ui/checkboxOption.vue";
 import ButtonOption from "~/components/ui/buttonOption.vue";
-import BaggueteChanger from "~/components/buggueteChanger.vue";
+import BaguetteChanger from "~/components/buguetteChanger.vue";
+
+const { $api } = useNuxtApp();
 
 const currentWindow = ref(0);
+const options = ref({});
 const props = defineProps({ frame: { require: true } });
+
+const config = useRuntimeConfig();
+const pathDefImage = config.public.pathDefImage;
+
 function changeWidth(newValue) {
   props.frame.w = Number(newValue);
 }
@@ -61,9 +71,27 @@ function changeHeight(newValue) {
   props.frame.h = Number(newValue);
 }
 
+function uploadImage(file) {
+  console.log("VOT: ", props.frame.urlImage);
+  if (file == "") props.frame.urlImage = pathDefImage;
+  else props.frame.urlImage = URL.createObjectURL(file);
+}
+
 function setWindow(newValue) {
   currentWindow.value = Number(newValue);
 }
+
+async function getOption() {
+  try {
+    const response = await $api.get("/api/v1/options/");
+    options.value = response.data;
+  } catch (error) {
+    options.value = {};
+    console.error(error);
+  }
+}
+
+onMounted(getOption);
 </script>
 
 <style scoped>

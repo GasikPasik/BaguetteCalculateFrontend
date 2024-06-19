@@ -37,8 +37,8 @@ const updateOffset = (event) => {
   const centerX = screenWidth.value / 2;
   const centerY = screenHeight.value / 2;
 
-  const offsetXFactor = 0.01;
-  const offsetYFactor = 0.01;
+  const offsetXFactor = 0.015;
+  const offsetYFactor = 0.02;
 
   offsetX.value = (mouseX - centerX) * offsetXFactor;
   offsetY.value = (mouseY - centerY) * offsetYFactor;
