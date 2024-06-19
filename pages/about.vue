@@ -2,37 +2,35 @@
   <div class="main-div">
     <div class="block-text">
       <h1>Информация о нас</h1>
-      <p1
-        >Когда человек сознательно или интуитивно выбирает себе в жизни какую-то
-        цель, жизненную задачу, он невольно дает себе оценку. По тому, ради чего
-        человек живет, можно судить и о его самооценке - низкой или высокой.
-        Если человек живет, чтобы приносить людям добро, облегчать их страдания,
-        давать людям радость, то он оценивает себя на уровне этой своей
-        человечности. Он ставит себе цель, достойную человека. Только такая цель
-        позволяет человеку прожить свою жизнь с достоинством и получить
-        настоящую радость. Да, радость! Подумайте: если человек ставит себе
-        задачей увеличивать в жизни добро, приносить людям счастье, какие
-        неудачи могут его постигнуть? Не тому помочь? Но много ли людей не
-        нуждаются в помощи? Если жить только для себя, своими мелкими заботами о
-        собственном благополучии, то от прожитого не останется и следа. Если же
-        жить для других, то другие сберегут то, чему служил, чему отдавал силы.
-        Можно по-разному определять цель своего существования, но цель должна
-        быть. Надо иметь и принципы в жизни.
-      </p1>
-      <!-- <YandexMap /> -->
     </div>
   </div>
 </template>
 
 <script setup>
-// import YandexMap from "~/components/YandexMap.vue";
+import { shallowRef, onMounted } from "vue";
+import {
+  YandexMap,
+  YandexMapDefaultSchemeLayer,
+  YandexMapDefaultFeaturesLayer,
+  YandexMapMarker,
+} from "vue-yandex-maps";
+
+import Point from "~/components/ui/point.vue";
+
+const positionX = 34.349167;
+const positionY = 61.785833;
+const map = shallowRef(null);
+
+onMounted(() => {
+  console.log("Position X:", positionX);
+  console.log("Position Y:", positionY);
+});
 </script>
 
 <style scoped>
 .main-div {
   width: 100%;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +41,6 @@
   width: 60%;
   height: 60%;
   box-shadow: 0px 0px 50px 5px rgba(10, 10, 10, 0.3);
-
   padding: 50px 30px;
   display: flex;
   flex-direction: column;
@@ -51,15 +48,4 @@
   gap: 15px;
   color: white;
 }
-
-.block-text p {
-  text-align: center;
-  /* text-align: justify; */
-}
-
-/* .block-text p:after {
-  content: "";
-  display: inline-block;
-  width: 100%;
-} */
 </style>

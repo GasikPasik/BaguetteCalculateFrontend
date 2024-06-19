@@ -75,8 +75,7 @@ const emit = defineEmits(["addItem"]);
 const errorText = ref("");
 
 function uploadImage(file) {
-  item.value.imageBaguette = file;
-  item.value.path = "";
+  item.value.imaga = "";
 }
 
 async function tryMake() {
