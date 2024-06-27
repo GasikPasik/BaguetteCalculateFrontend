@@ -11,6 +11,9 @@
 
   background-color: var(--main-color);
   border: none;
+
+  transition: transform 0.1s ease-in-out;
+  transform: scale(100%);
 }
 
 .custom-button:hover {
@@ -25,5 +28,6 @@
   box-shadow: none;
 
   background-color: white;
+  transform: scale(110%);
 }
 </style>

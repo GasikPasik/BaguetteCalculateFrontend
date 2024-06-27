@@ -32,6 +32,8 @@
               class="ico-baguette"
               :article="item.article"
             />
+            <img v-if="i.type === 5" class="image-table" :src="item[key]" />
+            <!-- <div v-if="i.type === 5">{{ item[key] }}</div> -->
           </td>
           <td>
             <div class="buttons-container">
@@ -174,5 +176,9 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.image-table {
+  max-width: 200px;
+  max-height: 200px;
 }
 </style>

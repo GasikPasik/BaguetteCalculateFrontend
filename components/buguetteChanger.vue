@@ -5,7 +5,7 @@
       <div>Ну тут будут фильтры</div>
       <CButton @click="emit('back')">Назад</CButton>
     </div>
-    <div class="gallery">
+    <div class="gallery" v-if="baguettes.length > 0">
       <div
         v-for="(bag, idx) in baguettes"
         :key="bag"
@@ -16,6 +16,9 @@
         <BaguetteIcon :article="bag.article" />
       </div>
     </div>
+    <p v-else :style="{ color: 'white', opacity: '60%' }">
+      Загружаем ассортимент...
+    </p>
   </div>
 </template>
 
@@ -43,7 +46,9 @@ async function uploadingBagguet() {
 function changeBaguette(idx) {
   props.frame.costBaguette = baguettes.value[idx].price;
   props.frame.width = baguettes.value[idx].width;
+  props.frame.widthWQ = baguettes.value[idx].widthWQ;
   props.frame.article = baguettes.value[idx].article;
+  props.frame.baguetteId = baguettes.value[idx].id;
 }
 
 onMounted(uploadingBagguet);
@@ -66,9 +71,9 @@ onMounted(uploadingBagguet);
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: end;
+  align-items: start;
   gap: 10px;
-  height: 100%;
   overflow-y: scroll;
 }
 .baguette {
@@ -78,8 +83,13 @@ onMounted(uploadingBagguet);
   padding: 8px;
   border: 4px solid white;
   border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
 }
+
 .baguette.active {
   border: 4px solid var(--main-color);
+  background-color: #f0f0f0; /* Изменение фона */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавление тени */
 }
 </style>

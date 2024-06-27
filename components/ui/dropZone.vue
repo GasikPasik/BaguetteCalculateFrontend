@@ -56,7 +56,7 @@ const deleteImage = () => {
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  background-color: white;
+  background-color: rgb(235, 235, 235);
   border-radius: 0px;
 
   display: flex;
@@ -65,6 +65,7 @@ const deleteImage = () => {
 
   width: 100%;
   min-height: 80px;
+  font-weight: 800;
 
   -webkit-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.2);

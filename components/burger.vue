@@ -28,7 +28,7 @@
       </div>
 
       <div v-if="Object.keys(offerTabs).length" class="burger-block">
-        <h1>Меню заказов</h1>
+        <h1>Меню сотрудника</h1>
         <div class="div-tabs">
           <p
             v-for="(tab, idx) in Object.keys(offerTabs)"
@@ -41,7 +41,7 @@
       </div>
 
       <div v-if="Object.keys(adminTabs).length" class="burger-block">
-        <h1>Админ меню</h1>
+        <h1>Меню админа</h1>
         <div class="div-tabs">
           <p
             v-for="(tab, idx) in Object.keys(adminTabs)"
@@ -86,20 +86,30 @@ function navigateTo(path) {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 50;
 }
 .over-div-burger {
   position: fixed;
   top: 0;
   right: 0;
   overflow: hidden;
-  width: 40%;
+  width: 35%;
   min-width: 500px;
-  max-width: 800px;
+  max-width: 600px;
   height: 100%;
   transition: transform 0.3s ease-in-out;
   transform: translateX(100%);
   z-index: 100;
 }
+
+@media screen and (max-width: 800px) {
+  .over-div-burger {
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+}
+
 .burger-div {
   position: absolute;
   top: 0;
@@ -108,24 +118,32 @@ function navigateTo(path) {
   height: 100%;
   width: 100%;
   background-color: var(--dark-grey-color);
+  opacity: 95%;
   transition: transform 0.3s ease-in-out;
 
   display: flex;
   flex-direction: column;
   align-items: end;
-  padding: 40px 130px;
+  padding: 40px 50px;
   gap: 80px;
   color: white;
   box-shadow: 0px 0px 50px 15px rgba(10, 10, 10, 0.3) inset;
 }
-.burger-div p {
+.burger-div {
+  display: flex;
   text-align: end;
+  align-items: end;
   width: 100%;
-  border-bottom: 3px solid rgb(30, 30, 30);
-}
-.burger-div p:hover {
-  border-bottom: 3px solid var(--main-color);
   cursor: pointer;
+}
+p {
+  border-bottom: 2px solid rgba(240, 240, 240, 0.3);
+  transition: border-color 0.2s ease-in-out;
+  transition: padding-right 0.2s ease-in-out;
+}
+p:hover {
+  padding-right: 10px;
+  border-bottom: 2px solid var(--main-color);
 }
 .div-tabs {
   width: 100%;

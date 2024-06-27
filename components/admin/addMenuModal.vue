@@ -22,6 +22,10 @@
               type="checkbox"
               v-model="item[key]"
             />
+            <DropZone
+              v-if="value.type === 4 || value.type === 5"
+              @uploadImage="uploadImage"
+            />
           </div>
         </div>
 
@@ -42,6 +46,8 @@
 import { ref } from "vue";
 import CButton from "~/components/ui/cbutton.vue";
 import ErrorModal from "~/components/errorModal.vue";
+import DropZone from "../ui/dropZone.vue";
+
 const isOpen = ref(false);
 const item = ref({});
 
@@ -50,6 +56,13 @@ const emit = defineEmits(["addItem"]);
 
 const isError = ref(false);
 const errorText = ref("");
+
+const config = useRuntimeConfig();
+const pathDefImage = config.public.pathDefImage;
+
+function uploadImage(file) {
+  item.value.image = file;
+}
 
 function openMenu() {
   isOpen.value = !isOpen.value;

@@ -14,9 +14,13 @@
 import Checkbox from "~/components/ui/checkbox.vue";
 const isChecked = ref(false);
 
+const emit = defineEmits(["changeValue"]);
+
 function toggleCheck(newValue) {
   isChecked.value = newValue;
+  emit("changeValue", newValue);
 }
+
 const props = defineProps({
   label: {
     type: String,

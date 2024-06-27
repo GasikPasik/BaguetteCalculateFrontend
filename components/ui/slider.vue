@@ -144,7 +144,7 @@ onMounted(() => {
 .slider {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 15px;
   color: white;
   align-items: center;
 }
@@ -158,6 +158,14 @@ onMounted(() => {
   -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.25) inset;
   -moz-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.25) inset;
   box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.25) inset;
+  transform: scale(100%);
+  transition: transform 0.1s ease-in-out;
+}
+
+.input-value:hover,
+.input-value:focus,
+.input-value:active {
+  transform: scale(104%);
 }
 .input-valu:active {
   border: none;
@@ -176,7 +184,7 @@ onMounted(() => {
   position: relative;
   background: none;
 
-  --slider-color: #ff8a00;
+  --slider-color: var(--main-color);
 }
 
 .slider-track {

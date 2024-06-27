@@ -67,11 +67,14 @@
         ></div>
         <div class="content-container">
           <img
-            v-if="frame.isMirror == 0"
             class="content-image"
             :src="frame.urlImage"
+            :class="{ active: frame.isMirror === 0 }"
           />
-          <div v-else class="div-mirror"></div>
+          <div
+            class="div-mirror"
+            :class="{ active: frame.isMirror === 1 }"
+          ></div>
         </div>
       </div>
     </div>
@@ -79,21 +82,17 @@
 </template>
 
 <script setup>
-const maxW = ref(500);
-const maxH = ref(300);
 import { defineProps, ref, onMounted, watch } from "vue";
+
 const props = defineProps({ frame: { require: true } });
-//   Math.min(
-//     props.frame.width * (maxH / props.frame.h),
-//     props.frame.width * (maxW / props.frame.w)
-//   )
-// );
-const k = ref(0); //maxH / (wBaguette.value + maxH));
-const limitW = ref(0); //maxW * k.value);
-const limitH = ref(0); //maxH * k.value);
+
+const k = ref(0);
+const limitW = ref(0);
+const limitH = ref(0);
 const width = ref(0);
 const height = ref(0);
 const wBaguette = ref(0);
+
 const config = useRuntimeConfig();
 const backendUrl = config.public.backendUrl;
 
@@ -121,20 +120,33 @@ function calculateSize(maxW, maxH) {
   }
 }
 
-onMounted(() => {
+const updateSize = () => {
   const parentElement = preview.value.parentElement;
-  const parentWidth = parentElement.clientWidth;
-  const parentHeight = parentElement.clientHeight;
-  calculateSize(parentWidth, parentHeight);
-});
-
-watch(
-  () => [props.frame.article, props.frame.w, props.frame.h],
-  () => {
-    const parentElement = preview.value.parentElement;
+  if (parentElement) {
     const parentWidth = parentElement.clientWidth;
     const parentHeight = parentElement.clientHeight;
     calculateSize(parentWidth, parentHeight);
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("resize", updateSize);
+  updateSize();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateSize);
+});
+watch(
+  () => [
+    props.frame.path,
+    props.frame.article,
+    props.frame.w,
+    props.frame.h,
+    props.frame.width,
+  ],
+  () => {
+    updateSize();
   }
 );
 </script>
@@ -149,7 +161,6 @@ watch(
   height: 100%;
 }
 .frame {
-  /* background-color: var(--dark-grey-color); */
   opacity: 0.95;
 }
 
@@ -158,9 +169,6 @@ watch(
   overflow: visible;
   width: 100%;
   position: relative;
-  -webkit-box-shadow: 0px 0px 10px 5px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 0px 0px 10px 5px rgba(34, 60, 80, 0.2);
-  box-shadow: 0px 0px 10px 5px rgba(34, 60, 80, 0.2);
 }
 
 .content-container {
@@ -220,5 +228,19 @@ watch(
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, #eeeeee, #c7c7c7);
+  z-index: -1;
+}
+.div-mirror,
+.content-image {
+  opacity: 0%;
+  transition: opacity 0.2s ease-in-out;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.div-mirror.active,
+.content-image.active {
+  opacity: 100%;
 }
 </style>

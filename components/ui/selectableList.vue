@@ -7,7 +7,10 @@
       @click="selectItem(index)"
     >
       {{ item }}
-      <div v-if="index === localSelectedIndex" class="line-active"></div>
+      <div
+        class="line-active"
+        :class="{ active: index === localSelectedIndex }"
+      ></div>
     </div>
   </div>
 </template>
@@ -55,8 +58,12 @@ watch(
   color: var(--main-color);
 }
 .line-active {
-  width: 100%;
+  width: 0%;
   height: 1px;
   background-color: var(--main-color);
+  transition: width 0.1s ease-in-out;
+}
+.line-active.active {
+  width: 100%;
 }
 </style>

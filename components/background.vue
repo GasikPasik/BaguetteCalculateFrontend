@@ -16,14 +16,14 @@ const offsetY = ref(0);
 
 const backgroundStyle = computed(() => {
   const backgroundSize = `${props.zoom}%`;
-  const backgroundPositionX = offsetX.value + "px";
-  const backgroundPositionY = offsetY.value + "px";
+  const backgroundPositionX = `calc(50% + ${offsetX.value}px)`;
+  const backgroundPositionY = `calc(50% + ${offsetY.value}px)`;
 
   return {
-    backgroundImage: `url(https://3djungle.ru/upload/resize_cache/iblock/f43/400_400_1/f4338ceb128889832da5361a6160c9ff.jpg)`,
+    backgroundImage: `url(https://cdn.architextures.org/textures/22/8/stained-glassdawn-staggered-bespokeatelier-hvetko-1200.jpg)`,
     backgroundSize,
     backgroundPosition: `${backgroundPositionX} ${backgroundPositionY}`,
-    transition: "background-size 0.5s ease, background-position 0.1s ease",
+    transition: "background-size 0.2s ease, background-position 0.1s ease",
   };
 });
 
@@ -69,10 +69,9 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-color: green;
 }
 .bg-color {
-  background-color: rgba(230, 230, 230, 0.96);
+  background-color: rgba(230, 230, 230, 0.9);
   width: 100%;
   height: 100%;
 }

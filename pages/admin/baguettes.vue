@@ -56,36 +56,38 @@ function changeMenu() {
 }
 
 async function deleteBaguette(idx) {
-  // try {
-  //   const id = data.value[idx].id;
-  //   data.value = data.value.filter((obj) => obj.id !== id);
-  //   const response = await $api.delete(`/api/v1/offers/${id}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  console.log(localStorage.getItem("token"));
+  try {
+    const id = data.value[idx].id;
+    console.log(id);
+    data.value = data.value.filter((obj) => obj.id !== id);
+    const response = await $api.delete(`/api/v1/baguettes/${id}/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function updateBaguette(idx, newBaguette) {
-  // try {
-  //   console.log("id: ", newBaguette.id);
-  //   const response = await $api.put(
-  //     `/api/v1/offers/${newBaguette.id}`,
-  //     newBaguette,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     }
-  //   );
-  //   const resp = await response.data;
-  //   data.value[idx] = resp;
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  try {
+    const response = await $api.put(
+      `/api/v1/baguettes/${newBaguette.id}/`,
+      newBaguette,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const resp = await response.data;
+    data.value[idx] = resp;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function postBaguette(newBaguette) {

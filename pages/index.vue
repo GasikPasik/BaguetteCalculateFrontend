@@ -25,12 +25,14 @@ const frame = ref({
   h: 50,
   options: [],
   optionsCost: 0,
-  article: "3",
-  costBaguette: 100,
-  width: 3,
+  article: "",
+  costBaguette: 0,
+  baguetteId: -1,
+  width: 0,
   urlImage: pathDefImage,
   isMirror: 0,
   path: "",
+  isOutside: 1,
 });
 
 watch(
@@ -62,12 +64,26 @@ watch(
   flex-grow: 1;
 }
 .config {
-  width: 40%;
+  width: 35%;
   min-width: 500px;
-  max-width: 800px;
+  max-width: 600px;
   height: 100%;
   background-color: var(--dark-grey-color);
   padding: 25px;
   overflow-y: scroll;
+}
+
+@media screen and (max-width: 1200px) {
+  .main-content-div {
+    flex-direction: column;
+  }
+  .config {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .preview {
+    height: 1500px;
+  }
 }
 </style>

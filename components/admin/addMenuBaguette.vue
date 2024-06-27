@@ -39,7 +39,9 @@
       </div>
     </div>
     <div class="over-div-preview">
-      <Preview :frame="item"></Preview>
+      <div class="over-div-preview-size">
+        <Preview :frame="item"></Preview>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +77,8 @@ const emit = defineEmits(["addItem"]);
 const errorText = ref("");
 
 function uploadImage(file) {
-  item.value.imaga = "";
+  item.value.imageBaguette = file;
+  item.value.path = "";
 }
 
 async function tryMake() {
@@ -159,6 +162,8 @@ InitItem();
   flex-direction: column;
   gap: 15px;
   overflow-y: scroll;
+
+  min-width: 400px;
 }
 .block-menu-field {
   display: flex;
@@ -185,7 +190,15 @@ InitItem();
 }
 .over-div-preview {
   height: 100%;
-  width: 70%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+.over-div-preview-size {
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

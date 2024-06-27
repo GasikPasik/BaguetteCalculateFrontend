@@ -1,6 +1,9 @@
 <template>
   <div class="checkbox" @click="toggleCheck">
-    <div class="checkbox-inner" v-if="isChecked"></div>
+    <div
+      class="checkbox-inner"
+      :class="{ active: isChecked, disable: !isChecked }"
+    ></div>
   </div>
 </template>
 
@@ -29,6 +32,12 @@ function toggleCheck() {
 
   border-radius: 2px;
   box-shadow: 0px 0px 4px 1px rgba(10, 10, 10, 0.2) inset;
+
+  transition: transform 0.1s ease-in-out;
+  transform: scale(100%);
+}
+.checkbox:hover {
+  transform: scale(110%);
 }
 
 .checkbox-inner {
@@ -36,5 +45,13 @@ function toggleCheck() {
   width: 100%;
   height: 100%;
   background-color: var(--main-color);
+
+  transition: transform 0.1s ease-in-out;
+}
+.checkbox-inner.active {
+  transform: scale(100%);
+}
+.checkbox-inner.disable {
+  transform: scale(0%);
 }
 </style>

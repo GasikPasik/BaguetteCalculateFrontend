@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="end">
-      <TotalInfo />
+      <TotalInfo :frame="frame" />
     </div>
   </div>
 </template>
@@ -46,6 +46,6 @@ const props = defineProps({ frame: { require: true } });
   justify-content: center;
 }
 .end {
-  padding-bottom: 150px;
+  padding-bottom: 50px;
 }
 </style>

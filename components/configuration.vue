@@ -1,52 +1,84 @@
 <template>
-  <div class="div-configuration" v-show="currentWindow === 0">
-    <h1>Размерятор</h1>
-    <div class="div-config">
-      <SelectableList :items="['Внешний', 'Внутрений']" />
-      <div class="div-config-sizing-slider"></div>
-      <Slider
-        nameField="Ширина"
-        :startValue="frame.w"
-        @changeValue="changeWidth"
-      ></Slider>
-      <Slider
-        nameField="Высота"
-        :startValue="frame.h"
-        @changeValue="changeHeight"
-      ></Slider>
-    </div>
-    <h1>Фотогратор</h1>
-    <div class="div-config">
-      <SelectableList
-        :items="['Это фотография', 'Это зеркало']"
-        v-model="frame.isMirror"
+  <div
+    :style="{
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1000px',
+    }"
+  >
+    <transition name="main-menu" mode="out-in">
+      <div
+        v-if="currentWindow === 0"
+        class="div-configuration"
+        key="config"
+        :style="{ zIndex: currentWindow === 0 ? 2 : 1 }"
+      >
+        <h1>Размерятор</h1>
+        <div class="div-config">
+          <SelectableList
+            v-model="frame.isOutside"
+            :selectedIndex="frame.isOutside"
+            :items="['Внешний', 'Внутрений']"
+          />
+          <div class="div-config-sizing-slider"></div>
+          <Slider
+            nameField="Ширина"
+            :startValue="frame.w"
+            @changeValue="changeWidth"
+          ></Slider>
+          <Slider
+            nameField="Высота"
+            :startValue="frame.h"
+            @changeValue="changeHeight"
+          ></Slider>
+        </div>
+        <h1>Фотогратор</h1>
+        <div class="div-config">
+          <SelectableList
+            :selectedIndex="frame.isMirror"
+            :items="['Это фотография', 'Это зеркало']"
+            v-model="frame.isMirror"
+          />
+          <div class="dropzone" :class="{ active: frame.isMirror == 0 }">
+            <DropZone @uploadImage="uploadImage" />
+          </div>
+        </div>
+        <h1>Оформлятор</h1>
+        <div class="div-config">
+          <CheckboxOption
+            v-if="options.length > 0"
+            v-for="i in options"
+            :key="i.id"
+            :label="i.title"
+            :price="i.price"
+            @changeValue="addOption(i, $event)"
+          />
+          <p v-else :style="{ color: 'white', opacity: '60%' }">
+            Загружаются опции заказа...
+          </p>
+
+          <div class="config-space"></div>
+          <ButtonOption @clicked="setWindow(1)">Багет рамки</ButtonOption>
+          <ButtonOption>Профиль рамки</ButtonOption>
+          <ButtonOption>Стекло рамки</ButtonOption>
+        </div>
+        <div class="config-space"></div>
+      </div>
+    </transition>
+    <transition name="second-menu" mode="out-in">
+      <BaguetteChanger
+        v-show="currentWindow === 1"
+        :frame="frame"
+        @back="setWindow(0)"
+        :style="{ zIndex: currentWindow === 1 ? 2 : 1 }"
       />
-
-      <DropZone v-if="frame.isMirror == 0" @uploadImage="uploadImage" />
-    </div>
-    <h1>Оформлятор</h1>
-    <div class="div-config">
-      <CheckboxOption v-for="i in options" :label="i.title" :price="i.price" />
-
-      <div class="config-space"></div>
-      <ButtonOption @clicked="setWindow(1)">Багет рамки</ButtonOption>
-      <ButtonOption>Профиль рамки</ButtonOption>
-      <ButtonOption>Стекло рамки</ButtonOption>
-    </div>
-    <h1>Общая информация</h1>
-    <div class="div-config info">
-      Рамка в высоту {{ frame.w }} см, в ширинук {{ frame.h }} см<br />
-    </div>
+    </transition>
   </div>
-  <BaguetteChanger
-    v-show="currentWindow === 1"
-    :frame="frame"
-    @back="setWindow(0)"
-  />
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import Slider from "~/components/ui/slider.vue";
 import SelectableList from "~/components/ui/selectableList.vue";
 import DropZone from "~/components/ui/dropZone.vue";
@@ -72,13 +104,24 @@ function changeHeight(newValue) {
 }
 
 function uploadImage(file) {
-  console.log("VOT: ", props.frame.urlImage);
   if (file == "") props.frame.urlImage = pathDefImage;
   else props.frame.urlImage = URL.createObjectURL(file);
 }
 
 function setWindow(newValue) {
   currentWindow.value = Number(newValue);
+}
+
+function addOption(option, isAdd) {
+  if (isAdd) {
+    props.frame.optionsCost += option.price;
+    props.frame.options = [option.id, ...props.frame.options];
+  } else {
+    props.frame.optionsCost -= option.price;
+    props.frame.options = props.frame.options.filter(
+      (obj) => obj !== option.id
+    );
+  }
 }
 
 async function getOption() {
@@ -98,13 +141,15 @@ onMounted(getOption);
 .div-configuration {
   width: 100%;
   height: 100%;
-  text-align: center;
+  text-align: start;
+  padding-bottom: 40px;
 }
 .div-config {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 15px;
+  margin-bottom: 45px;
+  align-items: start;
 }
 
 .div-config.info {
@@ -112,11 +157,46 @@ onMounted(getOption);
 }
 
 h1 {
-  margin-top: 25px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .config-space {
-  height: 20px;
+  height: 30px;
+}
+
+.dropzone {
+  height: 0px;
+  transition: height 0.1s ease-in-out;
+  width: 100%;
+  overflow: hidden;
+}
+.dropzone.active {
+  height: 90px;
+}
+
+.main-menu-enter-from,
+.main-menu-leave-to {
+  transform: translateX(-100%);
+  opacity: 0%;
+}
+
+.second-menu-enter-from,
+.second-menu-leave-to {
+  opacity: 0%;
+}
+
+.main-menu-enter-to,
+.main-menu-leave-from,
+.second-menu-enter-to,
+.second-menu-leave-from {
+  transform: translateX(0%);
+  opacity: 100%;
+}
+
+.second-menu-enter-active,
+.second-menu-leave-active,
+.main-menu-enter-active,
+.main-menu-leave-active {
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 </style>

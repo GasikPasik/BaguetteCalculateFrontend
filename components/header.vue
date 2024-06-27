@@ -51,6 +51,7 @@ async function fetchToken() {
         options: "Опции заказа",
         offers: "Сотрудники",
         baguettes: "Багет",
+        points: "Адреса точек",
       };
     if (response.data.tag == "offer" || response.data.tag == "admin")
       offerTabs.value = {
@@ -58,7 +59,6 @@ async function fetchToken() {
       };
   } catch (error) {
     localStorage.removeItem("token");
-    console.error(error);
     login.value = "None";
     adminTabs.value = {};
   }
