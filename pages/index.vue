@@ -23,16 +23,23 @@ const emit = defineEmits(["changeZoom"]);
 const frame = ref({
   w: 50,
   h: 50,
-  options: [],
-  optionsCost: 0,
+
+  options: {},
+  optionsDepends: {},
+  isChangeOptions: false,
+
   article: "",
-  costBaguette: 0,
+  baguetteCost: 0,
   baguetteId: -1,
   width: 0,
+  widthWQ: 0,
+
   urlImage: pathDefImage,
   isMirror: 0,
-  path: "",
   isOutside: 1,
+
+  path: "",
+  count: 1,
 });
 
 watch(

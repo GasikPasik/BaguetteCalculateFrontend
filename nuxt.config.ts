@@ -2,6 +2,7 @@ import { ref } from "vue";
 
 const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
 export default defineNuxtConfig({
+  ssr: false,
   devtools: { enabled: false },
   css: ["~/assets/css/main.css"],
   vite: {

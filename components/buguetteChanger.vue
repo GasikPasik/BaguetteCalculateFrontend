@@ -44,7 +44,7 @@ async function uploadingBagguet() {
 }
 
 function changeBaguette(idx) {
-  props.frame.costBaguette = baguettes.value[idx].price;
+  props.frame.baguetteCost = baguettes.value[idx].price;
   props.frame.width = baguettes.value[idx].width;
   props.frame.widthWQ = baguettes.value[idx].widthWQ;
   props.frame.article = baguettes.value[idx].article;

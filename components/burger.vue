@@ -118,7 +118,7 @@ function navigateTo(path) {
   height: 100%;
   width: 100%;
   background-color: var(--dark-grey-color);
-  opacity: 95%;
+  opacity: 97%;
   transition: transform 0.3s ease-in-out;
 
   display: flex;

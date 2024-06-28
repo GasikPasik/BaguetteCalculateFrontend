@@ -52,6 +52,11 @@
             :key="i.id"
             :label="i.title"
             :price="i.price"
+            :isQ="i.isDependsSize"
+            :isChecked="
+              frame.options.hasOwnProperty(i.id) ||
+              frame.optionsDepends.hasOwnProperty(i.id)
+            "
             @changeValue="addOption(i, $event)"
           />
           <p v-else :style="{ color: 'white', opacity: '60%' }">
@@ -114,20 +119,35 @@ function setWindow(newValue) {
 
 function addOption(option, isAdd) {
   if (isAdd) {
-    props.frame.optionsCost += option.price;
-    props.frame.options = [option.id, ...props.frame.options];
+    if (option.isDependsSize) {
+      props.frame.optionsDepends[option.id] = option.price;
+    } else {
+      props.frame.options[option.id] = option.price;
+    }
   } else {
-    props.frame.optionsCost -= option.price;
-    props.frame.options = props.frame.options.filter(
-      (obj) => obj !== option.id
-    );
+    if (option.isDependsSize) {
+      delete props.frame.optionsDepends[option.id];
+    } else {
+      delete props.frame.options[option.id];
+    }
   }
+
+  props.frame.isChangeOptions = !props.frame.isChangeOptions;
 }
 
 async function getOption() {
   try {
-    const response = await $api.get("/api/v1/options/");
-    options.value = response.data;
+    const data = (await $api.get("/api/v1/options/")).data;
+    data.sort((a, b) => {
+      if (a.isDependsSize === false && b.isDependsSize === true) {
+        return -1;
+      } else if (a.isDependsSize === true && b.isDependsSize === false) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    options.value = data;
   } catch (error) {
     options.value = {};
     console.error(error);

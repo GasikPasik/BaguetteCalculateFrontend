@@ -2,7 +2,8 @@
   <div class="div-totalinfo">
     <div class="div-top-totalinfo">
       Будет готово с 13.03 (вт) после 13:00
-      <br /><CounterInput />
+      <br />
+      <CounterInput v-model="frame.count" />
     </div>
     <div class="div-bottom-totalinfo">
       <CalculateSum :frame="frame" />

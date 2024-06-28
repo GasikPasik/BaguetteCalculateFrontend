@@ -11,7 +11,12 @@
 import { ref } from "vue";
 
 const emit = defineEmits(["toggle"]);
-const isChecked = ref(false);
+const props = defineProps({
+  isChecked: {
+    default: false,
+  },
+});
+const isChecked = ref(props.isChecked);
 
 function toggleCheck() {
   isChecked.value = !isChecked.value;

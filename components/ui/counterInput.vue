@@ -20,20 +20,27 @@ const quantity = ref(1);
 const inputNumber = ref(null);
 const hiddenSpan = ref(null);
 
+const emit = defineEmits(["update:modelValue"]);
+
 function increase() {
   quantity.value++;
+  emit("update:modelValue", quantity.value);
 }
 
 function decrease() {
   if (quantity.value > 1) {
     quantity.value--;
   }
+  emit("update:modelValue", quantity.value);
 }
 
 function updateWidth() {
+  quantity.value = Number(quantity.value.toString().replace(/[^0-9]/g, ""));
+
   hiddenSpan.value.textContent = inputNumber.value.value;
   const spanWidth = hiddenSpan.value.offsetWidth;
   inputNumber.value.style.width = `${spanWidth + 10}px`;
+  emit("update:modelValue", quantity.value);
 }
 
 onMounted(() => {

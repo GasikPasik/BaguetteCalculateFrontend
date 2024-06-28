@@ -4,22 +4,14 @@
       {{ label }}
     </div>
     <div class="div-checkbox-right" :class="{ checked: isChecked }">
-      {{ price }} рублей
-      <Checkbox @toggle="toggleCheck" />
+      {{ price }} {{ isQ ? "руб. кв.м." : "рублей" }}
+      <Checkbox @toggle="toggleCheck" :isChecked="isChecked" />
     </div>
   </div>
 </template>
 
 <script setup>
 import Checkbox from "~/components/ui/checkbox.vue";
-const isChecked = ref(false);
-
-const emit = defineEmits(["changeValue"]);
-
-function toggleCheck(newValue) {
-  isChecked.value = newValue;
-  emit("changeValue", newValue);
-}
 
 const props = defineProps({
   label: {
@@ -30,7 +22,22 @@ const props = defineProps({
     type: Number,
     default: 100,
   },
+  isQ: {
+    type: Boolean,
+    default: false,
+  },
+  isChecked: {
+    default: false,
+  },
 });
+const isChecked = ref(props.isChecked);
+
+const emit = defineEmits(["changeValue"]);
+
+function toggleCheck(newValue) {
+  isChecked.value = newValue;
+  emit("changeValue", newValue);
+}
 </script>
 
 <style scoped>
