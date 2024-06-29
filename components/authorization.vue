@@ -17,13 +17,13 @@
       </div>
       <p class="div-error">{{ error }}</p>
 
-      <Cbutton @click="tryAuthorization">Готово</Cbutton>
+      <CButton @click="tryAuthorization">Готово</CButton>
     </div>
   </div>
 </template>
 
 <script setup>
-import Cbutton from "~/components/ui/cbutton.vue";
+import CButton from "~/components/ui/cbutton.vue";
 import { useRouter } from "vue-router";
 const { $api } = useNuxtApp();
 

@@ -1,6 +1,7 @@
 <template>
   <div class="main-div">
     <div class="header-button">
+      <CButton @click="backToMenu">Назад в админ меню</CButton>
       <AddMenuModal :headers="headers" @addItem="postPoint" />
     </div>
     {{ data.value }}
@@ -11,11 +12,23 @@
       @updateItem="updatePoint"
       mainName="title"
     ></CTable>
+    <ErrorModal
+      :body="errorText"
+      :show="errorText !== ''"
+      @close="closeError"
+    />
   </div>
 </template>
 <script setup>
+import CButton from "~/components/ui/cbutton.vue";
 import AddMenuModal from "~/components/admin/addMenuModal.vue";
 import CTable from "~/components/admin/ctable.vue";
+import ErrorModal from "~/components/errorModal.vue";
+import { createErrorMessage } from "~/utils/errorHandler.js";
+const errorText = ref("");
+function closeError() {
+  errorText.value = "";
+}
 definePageMeta({
   middleware: [function (to, from) {}, "auth-admin"],
 });
@@ -34,8 +47,9 @@ const headers = {
 const data = ref([]);
 
 async function deletePoint(idx) {
+  const copyData = data.value[idx];
+  const id = data.value[idx].id;
   try {
-    const id = data.value[idx].id;
     data.value = data.value.filter((obj) => obj.id !== id);
     const response = await $api.delete(`/api/v1/points/${id}`, {
       headers: {
@@ -43,7 +57,8 @@ async function deletePoint(idx) {
       },
     });
   } catch (error) {
-    console.error(error);
+    data.value.splice(idx, 0, copyData);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -56,7 +71,7 @@ async function updatePoint(idx, newPoint) {
     });
     data.value[idx] = newPoint;
   } catch (error) {
-    console.error(error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -79,7 +94,7 @@ async function postPoint(newPoint) {
     console.log(resp);
     data.value.push(resp);
   } catch (error) {
-    console.error("Error adding new point:", error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -93,9 +108,14 @@ async function getPoint() {
     }));
     console.log(data.value);
   } catch (error) {
-    data.value = {};
-    console.error(error);
+    data.value = [];
+    errorText.value = createErrorMessage(error);
   }
+}
+
+const router = useRouter();
+function backToMenu() {
+  router.push("/admin/");
 }
 
 onMounted(() => {
@@ -118,6 +138,6 @@ onMounted(() => {
 .header-button {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 </style>

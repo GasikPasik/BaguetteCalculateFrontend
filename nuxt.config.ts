@@ -30,6 +30,15 @@ export default defineNuxtConfig({
     public: {
       backendUrl: backendUrl,
       pathDefImage: backendUrl + "/static/def1.jpg",
+      adminTabs: {
+        options: "Опции заказа",
+        offers: "Сотрудники",
+        baguettes: "Багет",
+        points: "Адреса точек",
+      },
+      offerTabs: {
+        orders: "Заказы",
+      },
     },
   },
 });

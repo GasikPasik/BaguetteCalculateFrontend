@@ -1,6 +1,7 @@
 <template>
   <div class="main-div">
     <div class="header-button">
+      <CButton @click="backToMenu">Назад в админ меню</CButton>
       <CButton v-if="isAdd" @click="changeMenu">Вернуться назад</CButton>
       <CButton v-else @click="changeMenu">Добавить новый</CButton>
     </div>
@@ -18,12 +19,24 @@
       @updateItem="updateBaguette"
       mainName="article"
     ></CTable>
+    <ErrorModal
+      :body="errorText"
+      :show="errorText !== ''"
+      @close="closeError"
+    />
   </div>
 </template>
 <script setup>
 import AddMenuBaguette from "~/components/admin/addMenuBaguette.vue";
 import CButton from "~/components/ui/cbutton.vue";
 import CTable from "~/components/admin/ctable.vue";
+
+import ErrorModal from "~/components/errorModal.vue";
+import { createErrorMessage } from "~/utils/errorHandler.js";
+const errorText = ref("");
+function closeError() {
+  errorText.value = "";
+}
 
 const config = useRuntimeConfig();
 const backendUrl = config.public.backendUrl;
@@ -56,10 +69,9 @@ function changeMenu() {
 }
 
 async function deleteBaguette(idx) {
-  console.log(localStorage.getItem("token"));
+  const copyData = data.value[idx];
+  const id = data.value[idx].id;
   try {
-    const id = data.value[idx].id;
-    console.log(id);
     data.value = data.value.filter((obj) => obj.id !== id);
     const response = await $api.delete(`/api/v1/baguettes/${id}/`, {
       headers: {
@@ -67,7 +79,8 @@ async function deleteBaguette(idx) {
       },
     });
   } catch (error) {
-    console.error(error);
+    data.value.splice(idx, 0, copyData);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -86,7 +99,7 @@ async function updateBaguette(idx, newBaguette) {
     const resp = await response.data;
     data.value[idx] = resp;
   } catch (error) {
-    console.error(error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -117,7 +130,7 @@ async function postBaguette(newBaguette) {
     data.value.push(resp);
     changeMenu();
   } catch (error) {
-    console.error("Error adding new option:", error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -127,7 +140,7 @@ async function getBaguettes() {
     data.value = response.data;
   } catch (error) {
     data.value = [];
-    console.error(error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -137,8 +150,12 @@ async function getMaterials() {
     materials.value = response.data;
   } catch (error) {
     data.value = [];
-    console.error(error);
+    errorText.value = createErrorMessage(error);
   }
+}
+const router = useRouter();
+function backToMenu() {
+  router.push("/admin/");
 }
 
 onMounted(() => {
@@ -162,6 +179,6 @@ onMounted(() => {
 .header-button {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 </style>

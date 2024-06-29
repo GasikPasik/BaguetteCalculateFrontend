@@ -67,7 +67,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["close"]);
 
-const tabs = { Конструктор: "/", "О нас": "/about" };
+const tabs = { Конструктор: "/", "О нас": "/about/", "Админ меню": "/admin/" };
 
 const router = useRouter();
 

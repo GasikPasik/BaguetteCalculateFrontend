@@ -1,6 +1,7 @@
 <template>
   <div class="main-div">
     <div class="header-button">
+      <CButton @click="backToMenu">Назад в админ меню</CButton>
       <AddMenuModal :headers="headers" @addItem="postOption" />
     </div>
     <CTable
@@ -10,14 +11,24 @@
       @updateItem="updateOption"
       mainName="title"
     ></CTable>
+    <ErrorModal
+      :body="errorText"
+      :show="errorText !== ''"
+      @close="closeError"
+    />
   </div>
 </template>
 <script setup>
+import CButton from "~/components/ui/cbutton.vue";
 import AddMenuModal from "~/components/admin/addMenuModal.vue";
+import ErrorModal from "~/components/errorModal.vue";
 import CTable from "~/components/admin/ctable.vue";
+import { createErrorMessage } from "~/utils/errorHandler.js";
+
 definePageMeta({
   middleware: [function (to, from) {}, "auth-admin"],
 });
+
 const { $api } = useNuxtApp();
 const token = ref("");
 const headers = {
@@ -34,10 +45,15 @@ const headers = {
 };
 
 const data = ref([]);
+const errorText = ref("");
+function closeError() {
+  errorText.value = "";
+}
 
 async function deleteOption(idx) {
+  const copyData = data.value[idx];
+  const id = data.value[idx].id;
   try {
-    const id = data.value[idx].id;
     data.value = data.value.filter((obj) => obj.id !== id);
     const response = await $api.delete(`/api/v1/options/${id}`, {
       headers: {
@@ -45,7 +61,8 @@ async function deleteOption(idx) {
       },
     });
   } catch (error) {
-    console.error(error);
+    data.value.splice(idx, 0, copyData);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -63,7 +80,7 @@ async function updateOption(idx, newOption) {
     const resp = await response.data;
     data.value[idx] = resp;
   } catch (error) {
-    console.error(error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -78,7 +95,7 @@ async function postOption(newOption) {
     const resp = await response.data;
     data.value.push(resp);
   } catch (error) {
-    console.error("Error adding new option:", error);
+    errorText.value = createErrorMessage(error);
   }
 }
 
@@ -87,9 +104,14 @@ async function getOption() {
     const response = await $api.get("/api/v1/options/");
     data.value = response.data;
   } catch (error) {
-    data.value = {};
-    console.error(error);
+    data.value = [];
+    errorText.value = createErrorMessage(error);
   }
+}
+
+const router = useRouter();
+function backToMenu() {
+  router.push("/admin/");
 }
 
 onMounted(() => {
@@ -112,6 +134,6 @@ onMounted(() => {
 .header-button {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 </style>

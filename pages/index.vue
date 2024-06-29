@@ -14,7 +14,6 @@ import { ref, computed, onMounted, watch } from "vue";
 import Configuration from "~/components/configuration.vue";
 import Content from "~/components/content.vue";
 
-const route = useRoute();
 const config = useRuntimeConfig();
 const pathDefImage = config.public.pathDefImage;
 

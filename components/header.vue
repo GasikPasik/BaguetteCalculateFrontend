@@ -32,6 +32,8 @@ const { $api } = useNuxtApp();
 const adminTabs = ref({});
 const offerTabs = ref({});
 
+const config = useRuntimeConfig();
+
 function toggleBurger() {
   isOpenBurger.value = !isOpenBurger.value;
 }
@@ -46,17 +48,10 @@ async function fetchToken() {
       },
     });
     login.value = response.data.login;
-    if (response.data.tag == "admin")
-      adminTabs.value = {
-        options: "Опции заказа",
-        offers: "Сотрудники",
-        baguettes: "Багет",
-        points: "Адреса точек",
-      };
+    if (response.data.tag == "admin") adminTabs.value = config.public.adminTabs;
     if (response.data.tag == "offer" || response.data.tag == "admin")
-      offerTabs.value = {
-        orders: "Заказы",
-      };
+      offerTabs.value = config.public.offerTabs;
+    localStorage.setItem("tag", response.data.tag);
   } catch (error) {
     localStorage.removeItem("token");
     login.value = "None";
