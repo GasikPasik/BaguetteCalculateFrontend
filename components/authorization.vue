@@ -46,7 +46,7 @@ async function tryAuthorization() {
       password: password.value,
     });
     localStorage.setItem("token", response.data.token);
-    router.push("/").then(() => {
+    router.push("/admin/").then(() => {
       location.reload();
     });
   } catch (e) {
