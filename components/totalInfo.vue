@@ -17,14 +17,19 @@ import CounterInput from "~/components/ui/counterInput.vue";
 import CalculateSum from "~/components/calculateSum.vue";
 
 const props = defineProps({ frame: { type: Object, require: true } });
+const router = useRouter();
 
 function ordering() {
   const params = new URLSearchParams({
-    w: frame.value.w,
-    h: frame.value.h,
-    article: frame.value.article,
-    isMirror: frame.value.isMirror ? 1 : 0,
-    isOutside: frame.value.isOutside ? 1 : 0,
+    w: props.frame.w,
+    h: props.frame.h,
+    baguetteId: props.frame.baguetteId,
+    isMirror: props.frame.isMirror,
+    isOutside: props.frame.isOutside,
+    options: [
+      ...Object.keys(props.frame.options),
+      ...Object.keys(props.frame.optionsDepends),
+    ],
   }).toString();
 
   router.push(`/order?${params}`);

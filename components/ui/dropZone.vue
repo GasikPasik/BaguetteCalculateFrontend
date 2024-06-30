@@ -9,7 +9,7 @@
     <p v-if="!imageUrl">Перетащите фотографию или нажмите сюда</p>
     <img v-else :src="imageUrl" alt="Uploaded Image" />
   </div>
-  <CButton v-if="imageUrl" @click="deleteImage"
+  <CButton :style="{ width: '100%' }" v-if="imageUrl" @click="deleteImage"
     >Загрузить другую фотографию</CButton
   >
 </template>

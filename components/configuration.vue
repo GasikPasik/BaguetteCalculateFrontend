@@ -8,12 +8,7 @@
     }"
   >
     <transition name="main-menu" mode="out-in">
-      <div
-        v-if="currentWindow === 0"
-        class="div-configuration"
-        key="config"
-        :style="{ zIndex: currentWindow === 0 ? 2 : 1 }"
-      >
+      <div v-if="currentWindow === 0" class="div-configuration" key="config">
         <h1>Размерятор</h1>
         <div class="div-config">
           <SelectableList
@@ -37,7 +32,7 @@
         <div class="div-config">
           <SelectableList
             :selectedIndex="frame.isMirror"
-            :items="['Это фотография', 'Это зеркало']"
+            :items="['Я хочу фотографию', 'Я хочу зеркало']"
             v-model="frame.isMirror"
           />
           <div class="dropzone" :class="{ active: frame.isMirror == 0 }">
@@ -52,6 +47,7 @@
             :key="i.id"
             :label="i.title"
             :price="i.price"
+            :description="i.description"
             :isQ="i.isDependsSize"
             :isChecked="
               frame.options.hasOwnProperty(i.id) ||
@@ -64,9 +60,28 @@
           </p>
 
           <div class="config-space"></div>
-          <ButtonOption @clicked="setWindow(1)">Багет рамки</ButtonOption>
-          <ButtonOption>Профиль рамки</ButtonOption>
-          <ButtonOption>Стекло рамки</ButtonOption>
+          <ButtonOption @clicked="setWindow(1)"
+            ><div>
+              Багет рамки
+              <span :style="{ opacity: '60%', fontSize: '16px' }"
+                >(обязательно)</span
+              >
+            </div></ButtonOption
+          >
+          <ButtonOption @clicked="setWindow(2)"
+            ><div>
+              Стекло рамки
+              <span :style="{ opacity: '60%', fontSize: '16px' }">
+                (обязательно)</span
+              >
+            </div></ButtonOption
+          >
+
+          <div class="config-space"></div>
+          <h2 :style="{ padding: '0px 60px' }">Паспарту</h2>
+          <ButtonOption>Паспарту 1 слой</ButtonOption>
+          <ButtonOption>Паспарту 2 слой</ButtonOption>
+          <!-- <ButtonOption>Паспарту 3 слой</ButtonOption> -->
         </div>
         <div class="config-space"></div>
       </div>
@@ -76,7 +91,13 @@
         v-show="currentWindow === 1"
         :frame="frame"
         @back="setWindow(0)"
-        :style="{ zIndex: currentWindow === 1 ? 2 : 1 }"
+      />
+    </transition>
+    <transition name="second-menu" mode="out-in">
+      <GlassChanger
+        v-show="currentWindow === 2"
+        :frame="frame"
+        @back="setWindow(0)"
       />
     </transition>
   </div>
@@ -90,6 +111,7 @@ import DropZone from "~/components/ui/dropZone.vue";
 import CheckboxOption from "~/components/ui/checkboxOption.vue";
 import ButtonOption from "~/components/ui/buttonOption.vue";
 import BaguetteChanger from "~/components/buguetteChanger.vue";
+import GlassChanger from "~/components/glassChanger.vue";
 
 const { $api } = useNuxtApp();
 
@@ -181,7 +203,7 @@ h1 {
 }
 
 .config-space {
-  height: 30px;
+  height: 20px;
 }
 
 .dropzone {
@@ -196,7 +218,7 @@ h1 {
 
 .main-menu-enter-from,
 .main-menu-leave-to {
-  transform: translateX(-100%);
+  /* transform: translateX(-100%); */
   opacity: 0%;
 }
 
@@ -209,7 +231,7 @@ h1 {
 .main-menu-leave-from,
 .second-menu-enter-to,
 .second-menu-leave-from {
-  transform: translateX(0%);
+  /* transform: translateX(0%); */
   opacity: 100%;
 }
 

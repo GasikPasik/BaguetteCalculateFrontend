@@ -137,6 +137,10 @@ InitItem();
   width: 100%;
 }
 
+input[type="text"] {
+  border: 2px solid var(--dark-grey-color);
+}
+
 .buttons-menu-add {
   width: 100%;
   display: flex;

@@ -1,8 +1,10 @@
 <template>
   <div class="label-total-sum">
     Итого
-    <p :style="{ fontSize: '32px' }">{{ sumToPreview.sumToReal.toFixed(0) }}</p>
-    рублей
+    <p :style="{ fontSize: '32px', minWidth: '110px' }">
+      {{ sumToPreview.sumToReal.toFixed(2) }}
+    </p>
+    <Rubles :rubles="sumToReal" />
     <!-- (Цена за багет:
     {{ (props.frame.w + props.frame.h) * 2 * props.frame.widthWQ }})
     {{ props.frame.optionsDepends }}
@@ -12,6 +14,7 @@
 
 <script setup>
 import gsap from "gsap";
+import Rubles from "~/components/ui/rubles.vue";
 const props = defineProps({
   frame: { type: Object, required: true },
 });
@@ -27,21 +30,22 @@ function calculate() {
   if (props.frame.baguetteCost === 0) {
     return;
   }
-  console.log("123");
   for (let key in props.frame.options) {
     sumToReal.value += props.frame.options[key];
   }
 
-  const square = props.frame.w * props.frame.h;
+  const square = (props.frame.w / 100) * (props.frame.h / 100);
 
   for (let key in props.frame.optionsDepends) {
     sumToReal.value += props.frame.optionsDepends[key] * square;
   }
 
-  let lenOfBag = (props.frame.w + props.frame.h) * 2 * props.frame.widthWQ;
-  if (props.frame.isOutside === 0) lenOfBag += props.frame.widthWQ * 8;
-  console.log(props.frame.baguetteCost);
+  let lenOfBag =
+    (props.frame.w / 100 + props.frame.h / 100) * 2 * props.frame.widthWQ;
+  if (props.frame.isOutside === 0) lenOfBag += (props.frame.widthWQ * 8) / 100;
   sumToReal.value += lenOfBag * props.frame.baguetteCost;
+
+  sumToReal.value += square * props.frame.glassCost;
 
   sumToReal.value *= props.frame.count;
 }
@@ -55,6 +59,7 @@ watch(
     props.frame.width,
     props.frame.isOutside,
     props.frame.count,
+    props.frame.glassId,
   ],
   () => {
     calculate();

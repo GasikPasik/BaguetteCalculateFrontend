@@ -54,7 +54,7 @@ async function fetchToken() {
     localStorage.setItem("tag", response.data.tag);
   } catch (error) {
     localStorage.removeItem("token");
-    login.value = "None";
+    login.value = "";
     adminTabs.value = {};
   }
 }

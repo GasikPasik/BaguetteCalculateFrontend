@@ -57,7 +57,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -65,6 +64,7 @@ const props = defineProps({
   adminTabs: { default: {} },
   offerTabs: { default: {} },
 });
+
 const emit = defineEmits(["close"]);
 
 const tabs = { Конструктор: "/", "О нас": "/about/", "Админ меню": "/admin/" };

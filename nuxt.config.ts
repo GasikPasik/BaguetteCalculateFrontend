@@ -31,10 +31,11 @@ export default defineNuxtConfig({
       backendUrl: backendUrl,
       pathDefImage: backendUrl + "/static/def1.jpg",
       adminTabs: {
+        points: "Адреса точек",
         options: "Опции заказа",
         offers: "Сотрудники",
         baguettes: "Багет",
-        points: "Адреса точек",
+        glass: "Стекло",
       },
       offerTabs: {
         orders: "Заказы",

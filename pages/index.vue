@@ -37,6 +37,9 @@ const frame = ref({
   isMirror: 0,
   isOutside: 1,
 
+  glassId: -1,
+  glassCost: 0,
+
   path: "",
   count: 1,
 });
