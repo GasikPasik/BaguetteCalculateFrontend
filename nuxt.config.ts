@@ -3,7 +3,7 @@ import { ref } from "vue";
 const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
 export default defineNuxtConfig({
   ssr: false,
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   vite: {
     server: {
@@ -34,6 +34,7 @@ export default defineNuxtConfig({
         points: "Адреса точек",
         options: "Опции заказа",
         offers: "Сотрудники",
+        passepartout: "Паспарту",
         baguettes: "Багет",
         glass: "Стекло",
       },

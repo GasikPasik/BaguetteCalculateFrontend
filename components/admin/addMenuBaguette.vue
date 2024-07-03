@@ -4,10 +4,7 @@
     <div class="menu-div">
       <h1 :style="{ color: 'var(--dark-grey-color)' }">Меню добавления</h1>
       <div v-for="(value, key) in headers" :key="key">
-        <div
-          v-if="value.type !== 0 && value.type !== 4"
-          class="block-menu-field"
-        >
+        <div v-if="value.type !== 0" class="block-menu-field">
           <h2 :style="{ color: 'var(--dark-grey-color)' }">
             {{ value.name }}
           </h2>
@@ -20,17 +17,16 @@
           />
           <input v-if="value.type === 2" type="checkbox" v-model="item[key]" />
           <DropDown
-            v-if="value.type === 3"
+            v-if="value.type === 8"
             v-model="item[key]"
-            :options="materials"
+            :options="options[0]"
+          />
+          <DropZone
+            v-if="value.type === 4 || value.type === 5"
+            v-model:modalFile="item[key]"
           />
         </div>
       </div>
-      <div class="block-menu-field" :style="{ margin: '20px 0' }">
-        <h2 :style="{ color: 'var(--dark-grey-color)' }">Загрузка узора</h2>
-        <DropZone @uploadImage="uploadImage" />
-      </div>
-
       <div class="buttons-menu-add">
         <CButton :style="{ width: '110px' }" @click="tryMake"
           >Проверить</CButton
@@ -70,16 +66,11 @@ const item = ref({
 
 const props = defineProps({
   headers: { default: {} },
-  materials: { default: ["Vasya", "Petya"] },
+  options: { default: {} },
 });
 const emit = defineEmits(["addItem"]);
 
 const errorText = ref("");
-
-function uploadImage(file) {
-  item.value.imageBaguette = file;
-  item.value.path = "";
-}
 
 async function tryMake() {
   if (item.value.article == "") {
@@ -97,11 +88,11 @@ async function tryMake() {
 
   const formData = new FormData();
   formData.append("article", item.value.article);
-  formData.append("width", Number(item.value.wBaguette));
-  formData.append("imageBaguette", item.value.imageBaguette);
+  formData.append("width", Number(item.value.width));
+  formData.append("image", item.value.image);
   try {
     const response = await $api.post(
-      "http://localhost:8000/api/v1/baguettes/preview",
+      "http://localhost:8000/api/v1/baguettes/preview/",
       formData,
       {
         headers: {
@@ -122,13 +113,9 @@ function closeError() {
 }
 
 function addItem() {
-  if (item.value.imageBaguette === "") {
-    errorText.value = `Возникла ошбика, так как поле \"Узор\" не было заполнено`;
-    return;
-  }
   for (const key of Object.keys(props.headers)) {
     if (
-      props.headers[key].isRequired &&
+      props.headers[key].type !== 0 &&
       (item.value[key] === "" || item.value[key] === -1)
     ) {
       errorText.value = `Возникла ошбика, так как поле \"${props.headers[key].name}\" не было заполнено`;
@@ -136,7 +123,7 @@ function addItem() {
     }
   }
 
-  emit("addItem", item);
+  emit("addItem", item.value);
 }
 
 function InitItem() {

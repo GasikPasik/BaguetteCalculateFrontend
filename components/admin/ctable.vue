@@ -2,7 +2,7 @@
   <div>
     <WarningModal
       v-if="localData[idxToDel]"
-      :body="`Точно ли Вы хотите удалить опцию &quot;${localData[idxToDel][mainName]}&quot;?`"
+      :body="`Точно ли Вы хотите удалить опцию &quot;${localData[idxToDel][mainFieldName]}&quot;?`"
       :show="isOpenWarning"
       @cancel="closeWarning"
       @confirm="deleteItem"
@@ -27,13 +27,22 @@
             <p v-if="i.type === 0">{{ item[key] }}</p>
             <input v-if="i.type === 1" v-model="item[key]" class="input-edit" />
             <input v-if="i.type === 2" v-model="item[key]" type="checkbox" />
-            <BaguetteIcon
+            <img
               v-if="i.type === 4"
-              class="ico-baguette"
-              :article="item.article"
+              :src="backendUrl + '/static/baguettes/' + item.article + '_0.jpg'"
+              alt="Baguette"
+              class="bagguete-image"
             />
-            <img v-if="i.type === 5" class="image-table" :src="item[key]" />
-            <!-- <div v-if="i.type === 5">{{ item[key] }}</div> -->
+            <img
+              v-if="i.type === 5"
+              class="image-table"
+              :src="backendUrl + '/static/preview/' + item.id + '.jpg'"
+            />
+            <DropDown
+              v-if="i.type === 8 && options[0]"
+              v-model="item[key]"
+              :options="options[0]"
+            />
           </td>
           <td>
             <div class="buttons-container">
@@ -65,39 +74,36 @@
 <script setup>
 import WarningModal from "~/components/warningModal.vue";
 import BaguetteIcon from "~/components/baguetteIcon.vue";
+import DropDown from "../ui/dropDown.vue";
 
 const props = defineProps({
   headers: Object,
   data: Array,
-  mainName: String,
+  localData: Array,
+  mainFieldName: String,
+  options: { default: [] },
 });
+
+const config = useRuntimeConfig();
+const backendUrl = config.public.backendUrl;
 
 const emit = defineEmits(["deleteItem", "updateItem"]);
 
-const localData = ref(JSON.parse(JSON.stringify(props.data)));
 const isOpenWarning = ref(false);
 const idxToDel = ref(0);
 
-watch(
-  () => props.data,
-  (newData) => {
-    localData.value = JSON.parse(JSON.stringify(newData));
-  },
-  { deep: true }
-);
-
 function isEdited(idx) {
-  return Object.keys(localData.value[idx]).some(
-    (key) => props.data[idx][key] !== localData.value[idx][key]
+  return Object.keys(props.localData[idx]).some(
+    (key) => props.data[idx][key] !== props.localData[idx][key]
   );
 }
 
 function saveEdit(idx) {
-  emit("updateItem", idx, localData.value[idx]);
+  emit("updateItem", idx);
 }
 
 function cancelEdit(idx) {
-  localData.value[idx] = JSON.parse(JSON.stringify(props.data[idx]));
+  props.localData[idx] = JSON.parse(JSON.stringify(props.data[idx]));
 }
 
 function deleteItem() {
@@ -131,11 +137,7 @@ td {
   background-color: white;
   font-family: "Inter", sans-serif;
 }
-.row {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
+
 .input-edit {
   width: 100%;
   height: 100%;
@@ -180,5 +182,10 @@ td {
 .image-table {
   max-width: 200px;
   max-height: 200px;
+}
+
+.bagguete-image {
+  max-width: 120px;
+  max-height: 60px;
 }
 </style>

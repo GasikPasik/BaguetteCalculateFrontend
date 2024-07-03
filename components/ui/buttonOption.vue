@@ -25,6 +25,7 @@ function clicked() {
   gap: 30px;
   padding: 0 60px;
   color: white;
+  user-select: none;
 }
 .div-button-right {
   display: flex;

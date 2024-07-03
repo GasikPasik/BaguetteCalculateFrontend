@@ -38,6 +38,8 @@ function toggleCheck() {
   border-radius: 2px;
   box-shadow: 0px 0px 4px 1px rgba(10, 10, 10, 0.2) inset;
 
+  user-select: none;
+
   transition: transform 0.1s ease-in-out;
   transform: scale(100%);
 }

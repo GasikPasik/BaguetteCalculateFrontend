@@ -71,6 +71,8 @@ button {
   outline: none;
   cursor: not-allowed;
 
+  user-select: none;
+
   font-family: "Inter", sans-serif;
   font-weight: 600;
   width: 36px;

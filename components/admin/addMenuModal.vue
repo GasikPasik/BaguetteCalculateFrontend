@@ -1,7 +1,7 @@
 <template>
   <div>
     <ErrorModal :body="errorText" :show="isError" @close="closeError" />
-    <CButton @click="openMenu">Добавить</CButton>
+    <CButton @click="switchMenu">Добавить</CButton>
     <div v-if="isOpen" class="bg-menu-div" @pointerdown="handleOutsideClick">
       <div class="menu-div">
         <h1 :style="{ color: 'var(--dark-grey-color)' }">Меню добавления</h1>
@@ -24,13 +24,13 @@
             />
             <DropZone
               v-if="value.type === 4 || value.type === 5"
-              @uploadImage="uploadImage"
+              v-model:modalFile="item[key]"
             />
           </div>
         </div>
 
         <div class="buttons-menu-add">
-          <CButton :style="{ width: '110px' }" @click="openMenu"
+          <CButton :style="{ width: '110px' }" @click="switchMenu"
             >Отмена</CButton
           >
           <CButton :style="{ width: '110px' }" @click="addItem"
@@ -58,13 +58,9 @@ const isError = ref(false);
 const errorText = ref("");
 
 const config = useRuntimeConfig();
-const pathDefImage = config.public.pathDefImage;
+// const pathDefImage = config.public.pathDefImage;
 
-function uploadImage(file) {
-  item.value.image = file;
-}
-
-function openMenu() {
+function switchMenu() {
   isOpen.value = !isOpen.value;
   if (isOpen.value) InitItem();
 }
@@ -74,14 +70,14 @@ function closeError() {
 
 function addItem() {
   for (const key of Object.keys(props.headers)) {
-    if (props.headers[key].isRequired && item.value[key] === "") {
+    if (props.headers[key].type !== 0 && item.value[key] === "") {
       isError.value = true;
       errorText.value = `Возникла ошбика, так как поле \"${props.headers[key].name}\" не было заполнено`;
       return;
     }
   }
   emit("addItem", item.value);
-  openMenu();
+  switchMenu();
 }
 
 function handleOutsideClick(event) {
@@ -95,7 +91,7 @@ function InitItem() {
   for (const key of Object.keys(props.headers)) {
     if (props.headers[key].type == 0) continue;
     item.value[key] = "";
-    if (!props.headers[key].isRequired) {
+    if (props.headers[key].default !== undefined) {
       item.value[key] = props.headers[key].default;
     }
   }

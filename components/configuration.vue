@@ -81,7 +81,6 @@
           <h2 :style="{ padding: '0px 60px' }">Паспарту</h2>
           <ButtonOption>Паспарту 1 слой</ButtonOption>
           <ButtonOption>Паспарту 2 слой</ButtonOption>
-          <!-- <ButtonOption>Паспарту 3 слой</ButtonOption> -->
         </div>
         <div class="config-space"></div>
       </div>
@@ -103,7 +102,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, defineProps } from "vue";
 import Slider from "~/components/ui/slider.vue";
 import SelectableList from "~/components/ui/selectableList.vue";

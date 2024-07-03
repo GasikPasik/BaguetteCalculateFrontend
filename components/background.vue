@@ -71,7 +71,7 @@ onMounted(() => {
   z-index: -1;
 }
 .bg-color {
-  background-color: rgba(230, 230, 230, 0.9);
+  background-color: rgba(230, 230, 230, 0.8);
   width: 100%;
   height: 100%;
 }

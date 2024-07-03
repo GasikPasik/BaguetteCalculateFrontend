@@ -137,6 +137,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  user-select: none;
 }
 .nameField {
   color: white;

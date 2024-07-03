@@ -14,9 +14,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
-
 const props = defineProps({
   options: {
     type: Array,

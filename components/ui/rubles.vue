@@ -1,5 +1,5 @@
 <template>
-  <div>{{ rubleText }}</div>
+  <span>{{ rubleText }}</span>
 </template>
 
 <script setup>

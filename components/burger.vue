@@ -24,6 +24,12 @@
           >
             {{ tab }}
           </p>
+          <p
+            v-if="Object.keys(offerTabs).length > 0"
+            @click="navigateTo('/admin/')"
+          >
+            Админ панель
+          </p>
         </div>
       </div>
 
@@ -67,8 +73,7 @@ const props = defineProps({
 
 const emit = defineEmits(["close"]);
 
-const tabs = { Конструктор: "/", "О нас": "/about/", "Админ меню": "/admin/" };
-
+let tabs = { Конструктор: "/", "О нас": "/about/" };
 const router = useRouter();
 
 function closeMenu() {

@@ -11,7 +11,7 @@
     <div class="div-checkbox-right" :class="{ checked: isChecked }">
       {{ price }}
       <span v-if="isQ">руб. кв.м.</span>
-      <span v-else><Rubles :rubles="price" /></span>
+      <Rubles v-else :rubles="price" />
       <Checkbox @toggle="toggleCheck" :isChecked="isChecked" />
     </div>
     <div
@@ -65,8 +65,8 @@ function toggleCheck(newValue) {
 }
 
 function updateMousePosition(event) {
-  mouseX.value = event.clientX + 10; // Adjust for padding
-  mouseY.value = event.clientY + 10; // Adjust for padding
+  mouseX.value = event.clientX + 10;
+  mouseY.value = event.clientY + 10;
 }
 </script>
 
@@ -82,6 +82,7 @@ function updateMousePosition(event) {
   width: 100%;
   padding: 0 30px;
   position: relative;
+  user-select: none;
 }
 .div-checkbox-right {
   display: flex;

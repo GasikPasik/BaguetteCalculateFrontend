@@ -4,7 +4,7 @@
       <h1>Авторизация</h1>
       <div class="block-autho">
         <h2>Логин</h2>
-        <input v-model="username" maxlength="24" />
+        <input v-model="offername" maxlength="24" />
       </div>
       <div class="block-autho">
         <h2>Пароль</h2>
@@ -27,7 +27,7 @@ import CButton from "~/components/ui/cbutton.vue";
 import { useRouter } from "vue-router";
 const { $api } = useNuxtApp();
 
-const username = ref("");
+const offername = ref("");
 const password = ref("");
 const error = ref("");
 const showPassword = ref(false);
@@ -39,11 +39,15 @@ function toggleShowPassword() {
 }
 
 async function tryAuthorization() {
+  const formData = new FormData();
+  formData.append("offername", offername.value);
+  formData.append("password", password.value);
   try {
     error.value = "";
-    const response = await $api.post("/api/v1/login/offer/", {
-      offername: username.value,
-      password: password.value,
+    const response = await $api.post("/api/v1/login/offer/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     localStorage.setItem("token", response.data.token);
     router.push("/admin/").then(() => {

@@ -53,6 +53,7 @@ watch(
 }
 .item {
   cursor: pointer;
+  user-select: none;
 }
 .item.selected {
   color: var(--main-color);

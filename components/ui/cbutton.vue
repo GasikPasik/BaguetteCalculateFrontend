@@ -4,6 +4,7 @@
 
 <style scoped>
 .custom-button {
+  user-select: none;
   padding: 5px 14px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2) inset;
   -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2) inset;

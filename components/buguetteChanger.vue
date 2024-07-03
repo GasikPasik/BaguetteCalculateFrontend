@@ -6,15 +6,19 @@
       <CButton @click="emit('back')">Назад</CButton>
     </div>
     <div class="gallery" v-if="baguettes.length > 0">
-      <div
+      <BaguetteIcon
+        :baguette="{
+          id: bag.id,
+          article: bag.article,
+          price: bag.price,
+          width: bag.width,
+          widthWQ: bag.widthWQ,
+        }"
         v-for="(bag, idx) in baguettes"
         :key="bag"
-        class="baguette"
-        :class="{ active: bag.article === frame.article }"
+        :active="bag.article === frame.article"
         @click="changeBaguette(idx)"
-      >
-        <BaguetteIcon :article="bag.article" />
-      </div>
+      />
     </div>
     <p v-else :style="{ color: 'white', opacity: '60%' }">
       Загружаем ассортимент...
@@ -30,13 +34,10 @@ const { $api } = useNuxtApp();
 const emit = defineEmits(["back"]);
 const props = defineProps({ frame: { require: true } });
 
-const config = useRuntimeConfig();
-const backendUrl = config.public.backendUrl;
-
 const baguettes = ref([]);
 async function uploadingBagguet() {
   try {
-    const response = await $api.get("/api/v1/baguettes/");
+    const response = await $api.get("/api/v1/baguettes/price/");
     baguettes.value = response.data;
   } catch (error) {
     console.error(error);
@@ -75,21 +76,5 @@ onMounted(uploadingBagguet);
   align-items: start;
   gap: 10px;
   overflow-y: scroll;
-}
-.baguette {
-  width: 150px;
-  height: 150px;
-  background-color: white;
-  padding: 8px;
-  border: 4px solid white;
-  border-radius: 4px;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out,
-    background-color 0.2s ease-in-out;
-}
-
-.baguette.active {
-  border: 4px solid var(--main-color);
-  background-color: #f0f0f0; /* Изменение фона */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавление тени */
 }
 </style>
