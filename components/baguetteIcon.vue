@@ -12,7 +12,7 @@
     }"
   >
     <img
-      :src="backendUrl + '/static/baguettes/' + baguette.article + '.jpg'"
+      :src="backendUrl + '/static/' + baguette.image"
       alt="Baguette"
       class="bagguete-image"
     />

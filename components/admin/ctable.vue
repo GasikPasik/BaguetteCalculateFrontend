@@ -29,7 +29,7 @@
             <input v-if="i.type === 2" v-model="item[key]" type="checkbox" />
             <img
               v-if="i.type === 4"
-              :src="backendUrl + '/static/baguettes/' + item.article + '_0.jpg'"
+              :src="backendUrl + '/static/' + item.pattern1_path"
               alt="Baguette"
               class="bagguete-image"
             />

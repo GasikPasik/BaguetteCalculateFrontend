@@ -59,7 +59,8 @@ const item = ref({
   urlImage: pathDefImage,
   w: 80,
   h: 50,
-  path: "",
+  pattern1_path: "",
+  pattern2_path: "",
   update: false,
   imageBaguette: "",
 });
@@ -102,7 +103,8 @@ async function tryMake() {
       }
     );
     item.value.update = !item.value.update;
-    item.value.path = "temp/";
+    item.value.pattern1_path = "temp/" + item.value.article + "_0.jpg";
+    item.value.pattern2_path = "temp/" + item.value.article + "_90.jpg";
   } catch (error) {
     console.error(error);
   }

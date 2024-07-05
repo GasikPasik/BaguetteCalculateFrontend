@@ -15,12 +15,7 @@
           class="border top"
           :style="{
             backgroundImage:
-              'url(' +
-              backendUrl +
-              '/static/' +
-              (frame.path == '' ? 'baguettes/' : frame.path) +
-              frame.article +
-              '_0.jpg)',
+              'url(' + backendUrl + '/static/' + frame.pattern1_path + ')',
           }"
         ></div>
 
@@ -29,12 +24,7 @@
           class="border top bottom"
           :style="{
             backgroundImage:
-              'url(' +
-              backendUrl +
-              '/static/' +
-              (frame.path == '' ? 'baguettes/' : frame.path) +
-              frame.article +
-              '_0.jpg)',
+              'url(' + backendUrl + '/static/' + frame.pattern1_path + ')',
           }"
         ></div>
 
@@ -43,12 +33,7 @@
           class="border left"
           :style="{
             backgroundImage:
-              'url(' +
-              backendUrl +
-              '/static/' +
-              (frame.path == '' ? 'baguettes/' : frame.path) +
-              frame.article +
-              '_90.jpg)',
+              'url(' + backendUrl + '/static/' + frame.pattern2_path + ')',
           }"
         ></div>
 
@@ -57,18 +42,13 @@
           class="border left right"
           :style="{
             backgroundImage:
-              'url(' +
-              backendUrl +
-              '/static/' +
-              (frame.path == '' ? 'baguettes/' : frame.path) +
-              frame.article +
-              '_90.jpg)',
+              'url(' + backendUrl + '/static/' + frame.pattern2_path + ')',
           }"
         ></div>
         <div class="content-container">
           <img
             class="content-image"
-            :src="frame.urlImage"
+            :src="frame.urlImage === '' ? pathDefImage : frame.urlImage"
             :class="{ active: frame.isMirror === 0 }"
           />
           <div
@@ -85,6 +65,9 @@
 import { defineProps, ref, onMounted, watch } from "vue";
 
 const props = defineProps({ frame: { require: true } });
+const { $api } = useNuxtApp();
+
+const pathDefImage = useRuntimeConfig().public.pathDefImage;
 
 const k = ref(0);
 const limitW = ref(0);

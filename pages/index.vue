@@ -10,12 +10,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
 import Configuration from "~/components/configuration.vue";
 import Content from "~/components/content.vue";
-
-const config = useRuntimeConfig();
-const pathDefImage = config.public.pathDefImage;
 
 const emit = defineEmits(["changeZoom"]);
 
@@ -33,7 +29,7 @@ const frame = ref({
   width: 0,
   widthWQ: 0,
 
-  urlImage: pathDefImage,
+  urlImage: "",
   isMirror: 0,
   isOutside: 1,
 

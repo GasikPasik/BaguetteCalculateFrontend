@@ -36,7 +36,7 @@
             v-model="frame.isMirror"
           />
           <div class="dropzone" :class="{ active: frame.isMirror == 0 }">
-            <DropZone @uploadImage="uploadImage" />
+            <DropZone v-model:modalUrl="frame.urlImage" />
           </div>
         </div>
         <h1>Оформлятор</h1>
@@ -118,20 +118,12 @@ const currentWindow = ref(0);
 const options = ref({});
 const props = defineProps({ frame: { require: true } });
 
-const config = useRuntimeConfig();
-const pathDefImage = config.public.pathDefImage;
-
 function changeWidth(newValue) {
   props.frame.w = Number(newValue);
 }
 
 function changeHeight(newValue) {
   props.frame.h = Number(newValue);
-}
-
-function uploadImage(file) {
-  if (file == "") props.frame.urlImage = pathDefImage;
-  else props.frame.urlImage = URL.createObjectURL(file);
 }
 
 function setWindow(newValue) {

@@ -13,6 +13,7 @@
           price: bag.price,
           width: bag.width,
           widthWQ: bag.widthWQ,
+          image: bag.image_path,
         }"
         v-for="(bag, idx) in baguettes"
         :key="bag"
@@ -50,6 +51,8 @@ function changeBaguette(idx) {
   props.frame.widthWQ = baguettes.value[idx].widthWQ;
   props.frame.article = baguettes.value[idx].article;
   props.frame.baguetteId = baguettes.value[idx].id;
+  props.frame.pattern1_path = baguettes.value[idx].pattern1_path;
+  props.frame.pattern2_path = baguettes.value[idx].pattern2_path;
 }
 
 onMounted(uploadingBagguet);
