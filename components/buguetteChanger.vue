@@ -38,7 +38,7 @@ const props = defineProps({ frame: { require: true } });
 const baguettes = ref([]);
 async function uploadingBagguet() {
   try {
-    const response = await $api.get("/api/v1/baguettes/price/");
+    const response = await $api.get("/api/v1/baguettes/price");
     baguettes.value = response.data;
   } catch (error) {
     console.error(error);

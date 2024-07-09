@@ -1,7 +1,7 @@
 <template>
   <AdminPage
     :headers="passepartout"
-    apiPath="/api/v1/baguettes"
+    apiPath="/api/v1/baguettes/"
     mainFieldName="article"
   />
 </template>

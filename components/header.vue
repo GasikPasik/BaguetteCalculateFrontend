@@ -42,7 +42,7 @@ const login = ref("None");
 
 async function fetchToken() {
   try {
-    const response = await $api.get("/api/v1/me/", {
+    const response = await $api.get("/api/v1/me", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

@@ -78,7 +78,7 @@ async function handleDeleteItem(idx) {
   try {
     data.value = data.value.filter((obj) => obj.id !== id);
     localData.value = localData.value.filter((obj) => obj.id !== id);
-    await $api.delete(`${props.apiPath}/${id}`, {
+    await $api.delete(`${props.apiPath}${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -94,7 +94,7 @@ async function handleUpdateItem(idx) {
   try {
     console.log(localData.value[idx]);
     const response = await $api.put(
-      `${props.apiPath}/${localData.value[idx].id}/`,
+      `${props.apiPath}${localData.value[idx].id}`,
       localData.value[idx],
       {
         headers: {

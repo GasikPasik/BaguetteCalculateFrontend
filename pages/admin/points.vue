@@ -1,5 +1,5 @@
 <template>
-  <AdminPage :headers="point" apiPath="/api/v1/points" mainFieldName="title" />
+  <AdminPage :headers="point" apiPath="/api/v1/points/" mainFieldName="title" />
 </template>
 
 <script setup>

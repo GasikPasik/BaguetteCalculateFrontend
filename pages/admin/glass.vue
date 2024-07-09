@@ -1,5 +1,5 @@
 <template>
-  <AdminPage :headers="glass" apiPath="/api/v1/glass" mainFieldName="title" />
+  <AdminPage :headers="glass" apiPath="/api/v1/glass/" mainFieldName="title" />
 </template>
 
 <script setup>

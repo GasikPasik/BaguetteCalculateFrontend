@@ -1,7 +1,7 @@
 <template>
   <AdminPage
     :headers="option"
-    apiPath="/api/v1/options"
+    apiPath="/api/v1/options/"
     mainFieldName="title"
   />
 </template>
