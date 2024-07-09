@@ -58,7 +58,7 @@ const props = defineProps({ frame: { require: true } });
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 30px;
+  /* gap: 30px; */
   -webkit-box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
@@ -70,16 +70,19 @@ const props = defineProps({ frame: { require: true } });
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  padding: 20px;
 }
 .div-preview-size {
   width: 80%;
-  height: 60%;
+  height: 75%;
   align-items: center;
   display: flex;
   justify-content: center;
 }
 .end {
   padding-bottom: 50px;
+  padding: 15px;
 }
 .content {
   position: relative;

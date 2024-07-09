@@ -40,9 +40,8 @@ function calculate() {
     sumToReal.value += props.frame.optionsDepends[key] * square;
   }
 
-  let lenOfBag =
-    (props.frame.w / 100 + props.frame.h / 100) * 2 * props.frame.widthWQ;
-  if (props.frame.isOutside === 0) lenOfBag += (props.frame.widthWQ * 8) / 100;
+  let lenOfBag = (props.frame.w / 100 + props.frame.h / 100) * 2;
+  if (props.frame.isInner) lenOfBag += (props.frame.widthWQ * 8) / 100;
   sumToReal.value += lenOfBag * props.frame.baguetteCost;
 
   sumToReal.value += square * props.frame.glassCost;
@@ -57,7 +56,7 @@ watch(
     props.frame.isChangeOptions,
     props.frame.article,
     props.frame.width,
-    props.frame.isOutside,
+    props.frame.isInner,
     props.frame.count,
     props.frame.glassId,
   ],

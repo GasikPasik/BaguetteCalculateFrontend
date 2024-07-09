@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  baget_front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: baguette_frontend
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    environment:
+      BACKEND_URL: "https://kodak.karelia.ru/baget2"

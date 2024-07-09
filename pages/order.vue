@@ -6,7 +6,7 @@
     <p>Артикул: {{ frame.baguetteId }}</p>
     <p>Опции: {{ frame.options }}</p>
     <p>Зеркало: {{ frame.isMirror ? "Да" : "Нет" }}</p>
-    <p>Снаружи: {{ frame.isOutside ? "Да" : "Нет" }}</p>
+    <p>Снаружи: {{ frame.isInner ? "Да" : "Нет" }}</p>
     <CButton @click="confirmOrder">Подтвердить</CButton>
     <ErrorModal
       :body="errorText"
@@ -37,7 +37,7 @@ const frame = ref({
   options: [],
   baguetteId: "",
   isMirror: 0,
-  isOutside: 0,
+  isInner: 0,
 });
 
 function getData() {
@@ -45,7 +45,7 @@ function getData() {
   frame.value.h = parseInt(route.query.h) || 0;
   frame.value.baguetteId = route.query.baguetteId || "";
   frame.value.isMirror = route.query.isMirror == "1";
-  frame.value.isOutside = route.query.isOutside == "1";
+  frame.value.isInner = route.query.isInner == "1";
   frame.value.options = route.query.options || [];
 }
 

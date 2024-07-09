@@ -53,6 +53,7 @@ function changeBaguette(idx) {
   props.frame.baguetteId = baguettes.value[idx].id;
   props.frame.pattern1_path = baguettes.value[idx].pattern1_path;
   props.frame.pattern2_path = baguettes.value[idx].pattern2_path;
+  props.frame.stock = baguettes.value[idx].stock;
 }
 
 onMounted(uploadingBagguet);

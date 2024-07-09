@@ -31,7 +31,7 @@ const frame = ref({
 
   urlImage: "",
   isMirror: 0,
-  isOutside: 1,
+  isInner: 1,
 
   glassId: -1,
   glassCost: 0,
@@ -88,7 +88,7 @@ watch(
     min-width: 100%;
   }
   .preview {
-    height: 1500px;
+    height: 1300px;
   }
 }
 </style>

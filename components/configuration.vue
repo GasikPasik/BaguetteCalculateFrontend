@@ -12,8 +12,8 @@
         <h1>Размерятор</h1>
         <div class="div-config">
           <SelectableList
-            v-model="frame.isOutside"
-            :selectedIndex="frame.isOutside"
+            v-model="frame.isInner"
+            :selectedIndex="frame.isInner"
             :items="['Внешний', 'Внутрений']"
           />
           <div class="div-config-sizing-slider"></div>
