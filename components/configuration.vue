@@ -7,9 +7,10 @@
       gap: '1000px',
     }"
   >
-    <transition name="main-menu" mode="out-in">
+    <transition name="main-menu">
       <div v-if="currentWindow === 0" class="div-configuration" key="config">
         <h1>Размерятор</h1>
+
         <div class="div-config">
           <SelectableList
             v-model="frame.isInner"
@@ -60,41 +61,43 @@
           </p>
 
           <div class="config-space"></div>
-          <ButtonOption @clicked="setWindow(1)"
-            ><div>
-              Багет рамки
-              <span :style="{ opacity: '60%', fontSize: '16px' }"
-                >(обязательно)</span
-              >
-            </div></ButtonOption
+          <ButtonOption
+            @clicked="setWindow(1)"
+            :isActive="frame.baguetteId !== -1"
           >
-          <ButtonOption @clicked="setWindow(2)"
-            ><div>
-              Стекло рамки
-              <span :style="{ opacity: '60%', fontSize: '16px' }">
-                (обязательно)</span
-              >
-            </div></ButtonOption
+            Багет рамки*
+          </ButtonOption>
+          <ButtonOption
+            @clicked="setWindow(2)"
+            :isActive="frame.glassId !== -1"
           >
+            Стекло рамки*
+          </ButtonOption>
 
           <div class="config-space"></div>
-          <h2 :style="{ padding: '0px 60px' }">Паспарту</h2>
-          <ButtonOption>Паспарту 1 слой</ButtonOption>
-          <ButtonOption>Паспарту 2 слой</ButtonOption>
+
+          <PassepartoutConfig :frame="frame" @clickedPass="handleClickedPass" />
         </div>
         <div class="config-space"></div>
       </div>
     </transition>
-    <transition name="second-menu" mode="out-in">
+    <transition name="second-menu">
       <BaguetteChanger
         v-show="currentWindow === 1"
         :frame="frame"
         @back="setWindow(0)"
       />
     </transition>
-    <transition name="second-menu" mode="out-in">
+    <transition name="second-menu">
       <GlassChanger
         v-show="currentWindow === 2"
+        :frame="frame"
+        @back="setWindow(0)"
+      />
+    </transition>
+    <transition name="second-menu">
+      <PassepartoutChanger
+        v-show="currentWindow === 3"
         :frame="frame"
         @back="setWindow(0)"
       />
@@ -104,13 +107,16 @@
 
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
+
 import Slider from "~/components/ui/slider.vue";
-import SelectableList from "~/components/ui/selectableList.vue";
 import DropZone from "~/components/ui/dropZone.vue";
-import CheckboxOption from "~/components/ui/checkboxOption.vue";
 import ButtonOption from "~/components/ui/buttonOption.vue";
+import SelectableList from "~/components/ui/selectableList.vue";
+import CheckboxOption from "~/components/ui/checkboxOption.vue";
+
 import BaguetteChanger from "~/components/buguetteChanger.vue";
 import GlassChanger from "~/components/glassChanger.vue";
+import PassepartoutConfig from "~/components/passepartoutConfig.vue";
 
 const { $api } = useNuxtApp();
 
@@ -130,6 +136,21 @@ function setWindow(newValue) {
   currentWindow.value = Number(newValue);
 }
 
+function setSuffix(newValue) {
+  console.log(newValue);
+  if (newValue === 0) {
+    props.frame.pass_cuffix = 1;
+    if (newValue === 2 || (newValue !== 1 && props.frame.passId_1 !== -1))
+      props.frame.pass_cuffix = 2;
+  } else {
+    props.frame.pass_cuffix = newValue;
+  }
+}
+
+function handleClickedPass(idx = 0) {
+  setSuffix(idx);
+  setWindow(3);
+}
 function addOption(option, isAdd) {
   if (isAdd) {
     if (option.isDependsSize) {
@@ -208,11 +229,7 @@ h1 {
 }
 
 .main-menu-enter-from,
-.main-menu-leave-to {
-  /* transform: translateX(-100%); */
-  opacity: 0%;
-}
-
+.main-menu-leave-to,
 .second-menu-enter-from,
 .second-menu-leave-to {
   opacity: 0%;
@@ -230,6 +247,6 @@ h1 {
 .second-menu-leave-active,
 .main-menu-enter-active,
 .main-menu-leave-active {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 </style>

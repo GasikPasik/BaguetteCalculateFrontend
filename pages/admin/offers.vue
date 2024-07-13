@@ -1,7 +1,7 @@
 <template>
   <AdminPage
     :headers="offer"
-    apiPath="/api/v1/offers"
+    apiPath="/api/v1/offers/"
     mainFieldName="offername"
   />
 </template>

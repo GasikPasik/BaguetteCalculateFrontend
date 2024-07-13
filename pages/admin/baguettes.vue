@@ -1,7 +1,7 @@
 <template>
   <AdminPage
     :headers="baguette"
-    apiPath="/api/v1/baguettes"
+    apiPath="/api/v1/baguettes/"
     mainFieldName="article"
     :isBaguette="true"
     :options="[materials]"

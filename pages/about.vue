@@ -1,7 +1,7 @@
 <template>
   <div class="main-div">
     <div class="block-text">
-      <h1>Информация о нас</h1>
+      <h1>Информация о нашем мире</h1>
     </div>
   </div>
 </template>
@@ -14,8 +14,6 @@ import {
   YandexMapDefaultFeaturesLayer,
   YandexMapMarker,
 } from "vue-yandex-maps";
-
-import Point from "~/components/ui/point.vue";
 
 const positionX = 34.349167;
 const positionY = 61.785833;

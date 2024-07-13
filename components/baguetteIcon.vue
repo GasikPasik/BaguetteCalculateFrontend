@@ -2,7 +2,7 @@
   <ItemIcon
     :active="active"
     :label="baguette.article"
-    :price="baguette.price"
+    :price="baguette.price + ' руб. п.м.'"
     :info="{
       id: baguette.id,
       Артикул: baguette.article,

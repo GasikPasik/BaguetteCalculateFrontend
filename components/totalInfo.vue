@@ -45,7 +45,7 @@ function formatFutureDate(date) {
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const dayOfWeek = date.toLocaleDateString("ru-RU", { weekday: "short" });
-  return `Будет готово с ${day}.${month} (${dayOfWeek}) после 13:00`;
+  return `Будет готово с ${day}.${month} (${dayOfWeek}) после 15:00`;
 }
 function calculateDate() {
   let lenghtOfBag = (props.frame.w / 100 + props.frame.h / 100) * 2;

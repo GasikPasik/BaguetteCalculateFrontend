@@ -62,6 +62,8 @@ const props = defineProps({ frame: { require: true } });
   -webkit-box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0px 0px 60px 60px rgba(0, 0, 0, 0.3) inset;
+  padding-bottom: 50px;
+  padding-right: 0px;
 }
 
 .main-div-preview {

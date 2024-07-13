@@ -7,5 +7,7 @@ ADD . ${APP_ROOT}
 
 RUN npm ci
 
-RUN npm run build
-CMD node .output/server/index.mjs
+CMD ["npm", "run", "dev"]
+
+# RUN npm run build
+# CMD node .output/server/index.mjs

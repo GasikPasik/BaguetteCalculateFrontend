@@ -12,7 +12,7 @@
     </div>
     <div class="text-block">
       <p class="label-item">{{ label }}</p>
-      <p class="price-item">{{ price }} руб. м.</p>
+      <p class="price-item">{{ price }}</p>
     </div>
     <div
       v-if="showDisc && Object.keys(info).length > 0"
@@ -30,7 +30,7 @@
 <script setup>
 const props = defineProps({
   active: { default: false },
-  price: { default: 0.0 },
+  price: { default: "0.0" },
   label: { default: "None" },
   info: { default: {} },
 });
@@ -62,8 +62,8 @@ function updateMousePosition(event) {
   user-select: none;
 }
 .over-image-div {
-  width: 150px;
-  height: 150px;
+  max-width: 100%;
+  max-height: 100%;
   background-color: white;
   padding: 8px;
   border: 4px solid white;

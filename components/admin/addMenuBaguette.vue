@@ -92,16 +92,12 @@ async function tryMake() {
   formData.append("width", Number(item.value.width));
   formData.append("image", item.value.image);
   try {
-    const response = await $api.post(
-      "http://localhost:8000/api/v1/baguettes/preview/",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await $api.post("/api/v1/baguettes/preview", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     item.value.update = !item.value.update;
     item.value.pattern1_path = "temp/" + item.value.article + "_0.jpg";
     item.value.pattern2_path = "temp/" + item.value.article + "_90.jpg";

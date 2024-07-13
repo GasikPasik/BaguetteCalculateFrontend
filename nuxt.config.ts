@@ -8,6 +8,7 @@ const backendUrl = process.env.BACKEND_URL || "http://localhost:8000";
 console.log("Backend URL:", process.env.BACKEND_URL);
 export default defineNuxtConfig({
   ssr: false,
+  devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   vite: {
     server: {
