@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="container"
-    :style="{ width: '100%', height: '100%' }"
-    @mousemove="handleMouseMove"
-  >
-    <Header />
+  <Header />
+  <div class="over-container">
     <slot></slot>
     <Background :zoom="zoom" />
   </div>
@@ -18,9 +14,15 @@ const props = defineProps({
 });
 </script>
 <style scoped>
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.over-container {
+  width: 100%;
+  padding-top: 58px;
+}
+
+@media screen and (min-width: 500px) {
+  .over-container {
+    overflow: hidden;
+    height: 100%;
+  }
 }
 </style>

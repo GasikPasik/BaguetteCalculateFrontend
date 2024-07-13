@@ -50,6 +50,7 @@ async function tryAuthorization() {
       },
     });
     localStorage.setItem("token", response.data.token);
+    localStorage.setItem("tag", response.data.tag);
     router.push("/admin/").then(() => {
       location.reload();
     });

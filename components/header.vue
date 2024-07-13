@@ -5,7 +5,7 @@
       <div class="text-baget-calc">Багетный калькулятор</div>
     </div>
     <div class="div-header-right">
-      <div class="username-div">
+      <div class="username-div" v-if="login !== ''">
         <img class="ico-user" src="~/public/ico/user.svg" />
         {{ login }}
       </div>
@@ -64,6 +64,7 @@ onMounted(fetchToken);
 
 <style scoped>
 .div-header {
+  position: fixed;
   width: 100%;
   height: 60px;
   padding: 10px;
@@ -91,7 +92,11 @@ onMounted(fetchToken);
   font-weight: 500;
   font-size: 24px;
 }
-
+@media screen and (max-width: 500px) {
+  .text-baget-calc {
+    display: none;
+  }
+}
 .burger-icon {
   align-items: center;
   display: flex;

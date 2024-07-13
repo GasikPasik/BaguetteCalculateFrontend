@@ -6,6 +6,7 @@
 
 <script setup>
 const zoomBackground = ref(120 - (50 / 250) * 100);
+
 function changeZoom(zoom) {
   zoomBackground.value = zoom;
 }

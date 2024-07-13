@@ -23,7 +23,7 @@
               v-model="item[key]"
             />
             <DropZone
-              v-if="value.type === 4 || value.type === 5"
+              v-if="value.type === 4 || value.type === 5 || value.type === 6"
               v-model:modalFile="item[key]"
             />
           </div>

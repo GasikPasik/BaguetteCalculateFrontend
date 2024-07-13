@@ -147,7 +147,7 @@ async function fetchData() {
       },
     });
     data.value = response.data;
-    console.log(data.value);
+    console.log("data:", data.value);
     localData.value = JSON.parse(JSON.stringify(data.value));
   } catch (error) {
     errorText.value = createErrorMessage(error);

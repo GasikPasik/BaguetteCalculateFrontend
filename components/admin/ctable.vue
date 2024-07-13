@@ -38,6 +38,11 @@
               class="image-table"
               :src="backendUrl + '/static/preview/' + item.id + '.jpg'"
             />
+            <img
+              v-if="i.type === 6"
+              class="image-table"
+              :src="backendUrl + '/static/' + item.image_path"
+            />
             <DropDown
               v-if="i.type === 8 && options[0]"
               v-model="item[key]"
